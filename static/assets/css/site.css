@@ -77,8 +77,12 @@ address { font-style: normal; }
 .btn-block { display: flex; width: 100%; }
 .btn-primary { background: var(--pp-blue); color: #ffffff; box-shadow: 0 12px 32px rgba(32, 81, 197, 0.28); }
 .btn-primary:hover { color: #ffffff; filter: brightness(0.94); }
-.btn-accent { background: var(--pp-orange); color: var(--pp-orange-ink); box-shadow: 0 10px 26px rgba(243, 136, 0, 0.30); }
-.btn-accent:hover { color: var(--pp-orange-ink); filter: brightness(0.96); }
+/* Main call to action: PartnerPress blue with white text on every page. */
+.btn-accent { background: var(--pp-blue); color: #ffffff; box-shadow: 0 12px 32px rgba(32, 81, 197, 0.28); }
+.btn-accent:hover { color: #ffffff; filter: brightness(0.92); }
+/* On a blue band the blue button would disappear, so it flips to white with blue text. */
+.band-brand .btn-accent { background: #ffffff; color: var(--pp-blue); box-shadow: 0 10px 26px rgba(12, 29, 69, 0.25); }
+.band-brand .btn-accent:hover { background: var(--pp-blue-50); color: var(--pp-blue); filter: none; }
 .btn-secondary { background: #ffffff; color: var(--pp-blue); border-color: var(--pp-blue); }
 .btn-secondary:hover { background: var(--pp-blue-50); color: var(--pp-blue); }
 .badge {
@@ -202,6 +206,9 @@ address { font-style: normal; }
   html { scroll-behavior: auto; }
   .btn { transition: none; }
 }
+
+/* Trustindex review widget */
+.reviews-widget { min-height: 240px; }
 
 /* Phone numbers inside page copy */
 a.tel { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }

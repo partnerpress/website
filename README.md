@@ -37,12 +37,19 @@ netlify.toml  build command, publish folder, security headers
 
 Each page's `<!--meta -->` block sets its title, meta description, URL, which menu item is highlighted (`nav`), which phone number the phone call bar uses (`phone`: `marin` or `nm`), and its LocalBusiness schema (`schema`).
 
+## Search engine visibility
+
+The build hides the site from search engines everywhere except the live site. Unless Netlify is building production for partnerpress.net, every page gets `<meta name="robots" content="noindex">` and Netlify sends an `X-Robots-Tag: noindex, nofollow` header (via a generated `public/_headers`). That covers partnerpress.netlify.app, deploy previews and branch deploys, while Huddlekit and visitors can still open the pages.
+
+Once partnerpress.net is the site's primary domain in Netlify, the next production deploy is indexable automatically. To force it either way, set the `SITE_INDEXABLE` environment variable to `true` or `false`. Leave `robots.txt` open: crawlers have to fetch a page to see its noindex.
+
 ## Deploying on Netlify
 
 1. Netlify > Add new site > Import from Git > pick this repository. `netlify.toml` already sets the build command (`python3 build.py`) and publish folder (`public`).
 2. Point the partnerpress.net domain at Netlify (Domain settings) and turn on HTTPS.
 3. Forms > enable form detection, then add an email notification for the `book-a-call` form.
-4. After launch: submit `https://partnerpress.net/sitemap.xml` in Search Console and watch Pages > Not indexed for any old URL that still 404s.
+4. Check the deploy log says "search engines: allowed (live site)" after the domain switch.
+5. After launch: submit `https://partnerpress.net/sitemap.xml` in Search Console and watch Pages > Not indexed for any old URL that still 404s.
 
 `static/_redirects` 301-redirects every old WordPress URL that appeared in Search Console to its new page, so existing rankings carry over.
 

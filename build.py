@@ -9,6 +9,7 @@ sitemap.xml. Uses only the Python standard library.
 """
 import datetime
 import json
+import os
 import re
 import shutil
 from pathlib import Path
@@ -18,6 +19,24 @@ SRC = ROOT / "src"
 STATIC = ROOT / "static"
 OUT = ROOT / "public"
 SITE_URL = "https://partnerpress.net"
+LIVE_HOST = "partnerpress.net"
+
+
+def is_indexable():
+    """Allow search engines only on the live production site.
+
+    Netlify sets CONTEXT (production, deploy-preview, branch-deploy) and URL
+    (the site's primary address). Until partnerpress.net is connected, URL is
+    the netlify.app address, so every build stays hidden from search engines.
+    Set SITE_INDEXABLE=true or false to override, e.g. for a local build.
+    """
+    override = os.environ.get("SITE_INDEXABLE", "").strip().lower()
+    if override in ("true", "1", "yes"):
+        return True
+    if override in ("false", "0", "no"):
+        return False
+    url = os.environ.get("URL", "")
+    return os.environ.get("CONTEXT") == "production" and LIVE_HOST in url and "netlify.app" not in url
 
 PHONES = {
     "marin": ("+14153906563", "(415) 390-6563"),
@@ -100,6 +119,11 @@ def build():
     if OUT.exists():
         shutil.rmtree(OUT)
     shutil.copytree(STATIC, OUT)
+    indexable = is_indexable()
+    if not indexable:
+        # Header covers every file, including the sitemap and images. robots.txt
+        # stays open on purpose: crawlers must fetch pages to see the noindex.
+        (OUT / "_headers").write_text("/*\n  X-Robots-Tag: noindex, nofollow\n", encoding="utf-8")
 
     head = (SRC / "partials" / "head.html").read_text(encoding="utf-8")
     header = (SRC / "partials" / "header.html").read_text(encoding="utf-8")
@@ -114,7 +138,7 @@ def build():
             "title": meta["title"],
             "description": meta["description"],
             "canonical": SITE_URL + meta["path"],
-            "robots": '<meta name="robots" content="noindex">' if meta.get("noindex") else "",
+            "robots": '<meta name="robots" content="noindex">' if meta.get("noindex") or not indexable else "",
             "schema": schema_for(meta.get("schema", "")),
             "call_tel": tel,
             "call_label": label,
@@ -138,6 +162,7 @@ def build():
         encoding="utf-8",
     )
     print(f"built public/sitemap.xml ({len(sitemap)} URLs)")
+    print("search engines: " + ("allowed (live site)" if indexable else "blocked with noindex (not the live site)"))
 
 
 if __name__ == "__main__":

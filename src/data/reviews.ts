@@ -1,12 +1,28 @@
-// Excerpts from PartnerPress Google reviews, quoted word for word.
+// Excerpts from PartnerPress client reviews and testimonials, quoted word for word.
 
 export interface Review {
   quote: string;
   name: string;
   note: string;
+  /** Black and white headshot in public/assets/img. */
+  photo?: string;
 }
 
 export const REVIEWS = {
+  jenkins: {
+    quote:
+      'Every aspect of interacting with Shane is 100% polished and professional, from his pleasant, timely emails and attention to detail, to his recommended solutions, and fast turnaround time. Without hesitation, I will definitely hire Shane again and will be recommending him to customers and colleagues.',
+    name: 'Sue Jenkins',
+    note: 'Founder, LuckyChair & LinkedIn Learning Instructor',
+    photo: '/assets/img/home/sue-jenkins.webp',
+  },
+  ralston: {
+    quote:
+      "As Regional Marketing Manager at Sutter Health, a $6 billion health care organization in Northern California, I've worked with Shane on several key initiatives. Shane is professional, prompt and fun. For those seeking top notch web design, reasonable pricing, spot-on timing and regular deliverables, I'd highly recommend him.",
+    name: 'Shaun Ralston',
+    note: 'Regional Marketing Manager, Sutter Hospital',
+    photo: '/assets/img/home/shaun-ralston.webp',
+  },
   maxson: {
     quote:
       'Shane keeps our website up to date and secure with monthly patches and analytics. All of this as well as routine changes to the website are included in our contract so there are no surprises.',

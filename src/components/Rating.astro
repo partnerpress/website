@@ -11,7 +11,7 @@ const { compact = false } = Astro.props;
 
 <span class="rating">
   <span class="rating__stars" aria-hidden="true">★★★★★</span>
-  <strong>{SITE.reviews.rating}</strong>
+  <strong>{SITE.reviews.rating}</strong>{' '}
   {compact ? `· ${SITE.reviews.count} Google reviews` : `from ${SITE.reviews.count} Google reviews`}
 </span>
 

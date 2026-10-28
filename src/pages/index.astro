@@ -1,32 +1,80 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PageHero from '@/components/PageHero.astro';
 import Section from '@/components/Section.astro';
 import SectionIntro from '@/components/SectionIntro.astro';
 import Split from '@/components/Split.astro';
 import Grid from '@/components/Grid.astro';
 import Button from '@/components/Button.astro';
 import Rating from '@/components/Rating.astro';
-import Placeholder from '@/components/Placeholder.astro';
-import ReviewQuote from '@/components/ReviewQuote.astro';
-import NameStrip from '@/components/NameStrip.astro';
-import ServiceCard from '@/components/ServiceCard.astro';
 import Feature from '@/components/Feature.astro';
-import CaseStudyCard from '@/components/CaseStudyCard.astro';
+import Icon from '@/components/Icon.astro';
 import TrustindexReviews from '@/components/TrustindexReviews.astro';
-import Steps from '@/components/Steps.astro';
 import OfficeCard from '@/components/OfficeCard.astro';
-import BusinessSchema from '@/components/BusinessSchema.astro';
-import CheckList from '@/components/CheckList.astro';
-import CtaBand from '@/components/CtaBand.astro';
 import Phone from '@/components/Phone.astro';
-import { SERVICES, CLIENTS } from '@/data/services';
+import BusinessSchema from '@/components/BusinessSchema.astro';
+import { SERVICES } from '@/data/services';
 import { REVIEWS } from '@/data/reviews';
 
-const steps = [
-  { title: 'Free 30-minute call', text: "Tell me about your business, your goals and what isn't working online." },
-  { title: 'A written plan', text: 'I review your site, rankings and competitors, then send a plan with clear pricing.' },
-  { title: 'Launch and report', text: 'Work starts within [X] days. You get a plain-English report every month.' },
+const service = Object.fromEntries(SERVICES.map((s) => [s.key, s]));
+
+const howIDoIt = [
+  {
+    service: service.care,
+    title: 'I keep your site on solid ground',
+    text: "Your reputation starts with a WordPress site that's stable and secure, so it doesn't get hacked or blacklisted by Google.",
+  },
+  {
+    service: service['web-design'],
+    title: 'I build sites that bring in calls',
+    text: 'Fast, clear pages written for your customers, designed so visitors take action when it matters most.',
+  },
+  {
+    service: service['local-seo'],
+    title: 'I increase your visibility online',
+    text: "Websites don't just appear at the top of Google. I get your business into the map pack and local results, and keep it there.",
+  },
+  {
+    service: service['google-ads'],
+    title: 'I put you at the top today',
+    text: 'Google Ads aimed at the people searching for you right now, tracked down to the phone call, while SEO builds.',
+  },
+];
+
+const logos = [
+  { name: 'Grifols', file: 'grifols', w: 460, h: 102 },
+  { name: 'Ghilotti Bros. Inc.', file: 'ghilotti-bros', w: 377, h: 218 },
+  { name: 'Sutter Health', file: 'sutter-health', w: 250, h: 60 },
+  { name: 'Marin School of the Arts', file: 'marin-school-of-the-arts', w: 300, h: 300 },
+  { name: 'QuinStreet', file: 'quinstreet', w: 300, h: 61 },
+];
+
+const testimonials = [REVIEWS.jenkins, REVIEWS.ralston];
+
+const fit = [
+  {
+    title: 'You have an established service business',
+    text: "If your business is a side hustle, a hobby, or you're preparing to close soon, we're not a good fit. I only work with established, growth-focused service businesses that are in it for the long haul.",
+  },
+  {
+    title: 'You have specific, measurable goals',
+    text: "You can't hit a target if you don't know what you're aiming for. You know your numbers, and you're ready to do what it takes to improve them.",
+  },
+  {
+    title: "You're invested in your success",
+    text: "You value quality work and have a marketing budget. You also understand that I don't work on trade, for \"exposure\" or on the promise of more work to come.",
+  },
+  {
+    title: 'You have a solid team behind you',
+    text: "Whether it's in-house staff, a virtual assistant or a full marketing team, you can't do it all yourself. Your focus should be on doing what you do best.",
+  },
+  {
+    title: 'You make time for your partners',
+    text: "If we're going to partner on a project, you need to be as invested in it as I am. If you're too busy to make time for it, I can't be of real service to you.",
+  },
+  {
+    title: 'You enjoy what you do for a living',
+    text: "Loving what you do makes the hard parts of running a business a lot easier. We're probably a good fit if you look forward to your work.",
+  },
 ];
 ---
 
@@ -35,80 +83,110 @@ const steps = [
   description="WordPress design, care plans, Local SEO and Google Ads for local service businesses across the U.S. Since 2010. Book a free call."
 >
   <BusinessSchema slot="head" offices={['marin', 'nm']} organization />
-  <PageHero eyebrow="WordPress · Local SEO · Google Ads" title="More calls for local service businesses." size="xl">
-    <Fragment slot="lead">
-      I'm Shane Barnes. Since 2010 I've built, maintained and marketed WordPress sites for service businesses across the
-      U.S. One expert for your website, your Google rankings and your ads, so nothing falls through the cracks.
-    </Fragment>
-    <Fragment slot="actions">
-      <Button href="/contact/" size="lg">Book a free 30-minute call</Button>
-      <Button href="/wordpress-care-plans/" variant="secondary" size="lg">See plans and pricing</Button>
-    </Fragment>
-    <Fragment slot="meta">
-      <Rating />
-      <span>Google Partner</span>
-      <span>No long-term contracts</span>
-    </Fragment>
-    <Fragment slot="aside">
-      <Placeholder label="Photo: Shane with a client, or at his desk" />
-      <ReviewQuote review={REVIEWS.maxson} />
-    </Fragment>
-  </PageHero>
+  <link slot="head" rel="preload" as="image" href="/assets/img/home/shane-barnes.webp" />
 
-  <Section label="Clients" compact class="clients">
-    <NameStrip names={CLIENTS} label="Trusted by" />
-  </Section>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <p class="hero__hi">Hi, I'm Shane</p>
+        <h1 class="hero__title">More calls for local service businesses.</h1>
+        <p class="hero__sub">Your partner for WordPress, Local SEO and Google Ads.</p>
+        <div class="hero__actions">
+          <Button href="/contact/" size="lg">Book a free 30-minute call</Button>
+          <Rating />
+        </div>
+      </div>
+      <img
+        class="hero__photo"
+        src="/assets/img/home/shane-barnes.webp"
+        alt="Shane Barnes, founder of PartnerPress"
+        width="630"
+        height="559"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <div class="container panels">
+    <div class="panel panel--blue">
+      <p class="panel__eyebrow">What I do</p>
+      <h2 class="panel__title">I save you time and money</h2>
+      <p>
+        You've got a full plate and then some. The last thing you should be doing is chasing flaky developers. That's
+        where I come in. I've been building WordPress sites since 2010, so you can get back to what you do best while I
+        handle your website, your rankings and your ads.
+      </p>
+    </div>
+    <div class="panel panel--orange">
+      <p class="panel__eyebrow">Why I do it</p>
+      <h2 class="panel__title">Your success is my success</h2>
+      <p>
+        As a young developer, I discovered WordPress in 2010 and was instantly hooked. Since then, I've helped hundreds of
+        businesses across the U.S. succeed online. All from home in Marin County and Las Cruces, where I live with my wife,
+        our 2 boys and 2 scrappy lap dogs.
+      </p>
+    </div>
+  </div>
 
   <Section id="services">
-    <SectionIntro eyebrow="What I do" title="Four services that work better together">
-      Most small businesses hire a designer, an SEO and an ads person, then play referee. I do all four, so your site, your
-      rankings and your ads pull in the same direction.
-    </SectionIntro>
-    <Grid min={250} gap="20px">
-      {SERVICES.map((s) => <ServiceCard service={s} highlight={s.key === 'care'} />)}
-    </Grid>
+    <h2 class="title-md center">How I do it</h2>
+    <div class="how">
+      {
+        howIDoIt.map((item) => (
+          <a class="how__item" href={item.service.href}>
+            <span class="how__icon">
+              <Icon name={item.service.icon} size={26} />
+            </span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+            <span class="how__link">
+              {item.service.shortTitle} · {item.service.price}
+            </span>
+          </a>
+        ))
+      }
+    </div>
   </Section>
 
-  <Section tone="subtle">
-    <Split>
-      <SectionIntro slot="side" eyebrow="Why work with me" title="One partner who answers the phone">
-        You work with me directly. No account managers, no hand-offs, no surprise invoices.
-      </SectionIntro>
-      <Grid min={230} gap="32px">
-        <Feature title="Your site stays up">
-          Updates, backups, security scans and uptime monitoring, with a report every month so you can see the work.
-        </Feature>
-        <Feature title="Customers find you">
-          Local SEO and Google Business Profile work aimed at the searches your customers actually type.
-        </Feature>
-        <Feature title="Visitors become calls">
-          Clear pages, fast load times and ads that send people to the right page, tracked down to the phone call.
-        </Feature>
-        <Feature title="Plain English">Clients mention it in reviews: I explain what I'm doing and why, without jargon.</Feature>
-      </Grid>
-    </Split>
+  <Section compact label="Clients">
+    <h2 class="title-md center">A few of my clients</h2>
+    <ul class="logos">
+      {
+        logos.map((logo) => (
+          <li>
+            <img
+              src={`/assets/img/clients/${logo.file}.webp`}
+              alt={logo.name}
+              width={logo.w}
+              height={logo.h}
+              loading="lazy"
+              decoding="async"
+            />
+          </li>
+        ))
+      }
+    </ul>
   </Section>
 
-  <Section id="work">
-    <SectionIntro eyebrow="Results" title="Recent client work" />
-    <Grid min={300}>
-      <CaseStudyCard label="[Client] · Local SEO" result="[RESULT, e.g. +X% calls]" text="[One sentence: the problem, what you did, and the time frame.]" />
-      <CaseStudyCard label="[Client] · Redesign" result="[RESULT]" text="[One sentence: the problem, what you did, and the time frame.]" />
-      <CaseStudyCard label="[Client] · Google Ads" result="[RESULT]" text="[One sentence: the problem, what you did, and the time frame.]" />
-    </Grid>
-  </Section>
-
-  <Section tone="tint" id="reviews">
-    <div class="reviews-head">
-      <h2 class="title-md">What clients say</h2>
-      <Rating compact />
+  <Section id="reviews">
+    <div class="center reviews-head">
+      <h2 class="title-md">Recent reviews</h2>
+      <Rating />
+    </div>
+    <div class="testimonials">
+      {
+        testimonials.map((r) => (
+          <figure class="testimonial">
+            <img src={r.photo} alt="" width="150" height="150" loading="lazy" decoding="async" />
+            <blockquote>"{r.quote}"</blockquote>
+            <figcaption>
+              <strong>{r.name}</strong>, {r.note}
+            </figcaption>
+          </figure>
+        ))
+      }
     </div>
     <TrustindexReviews />
-  </Section>
-
-  <Section>
-    <SectionIntro title="How we get started" />
-    <Steps steps={steps} min={260} />
   </Section>
 
   <Section tone="subtle" id="remote">
@@ -133,6 +211,44 @@ const steps = [
     </Split>
   </Section>
 
+  <Section tone="brand" width="narrow" id="fit">
+    <div class="center fit-intro">
+      <h2 class="title-md">Who I work with</h2>
+      <p>
+        Before you reach out, it's worth making sure we're on the same page. I know you're busy, and I want to use your
+        time well. If the points below sound like you, we're probably a good fit, and I'd love to hear from you.
+      </p>
+    </div>
+  </Section>
+
+  <Section width="narrow" class="fit-section">
+    <div class="fit">
+      {
+        fit.map((item) => (
+          <details>
+            <summary>
+              <span class="fit__plus" aria-hidden="true" />
+              {item.title}
+            </summary>
+            <p>{item.text}</p>
+          </details>
+        ))
+      }
+    </div>
+  </Section>
+
+  <section class="ready">
+    <div class="container container--narrow ready__inner">
+      <h2 class="title-lg">Are you ready to get started?</h2>
+      <p>
+        If you're ready for a reliable, long-term partner for your website, let's talk. I'll give you 30 minutes of my time
+        to talk through your needs and how I can help.
+      </p>
+      <Button href="/contact/" variant="inverse" size="lg">Book a free 30-minute call</Button>
+      <p class="ready__phones">Or call <Phone office="marin" /> · <Phone office="nm" /></p>
+    </div>
+  </section>
+
   <Section id="locations">
     <SectionIntro eyebrow="Two home bases" title="Prefer to meet in person?" size="sm">
       If you're near Marin County or Las Cruces, I'm happy to sit down with you.
@@ -145,36 +261,341 @@ const steps = [
       <OfficeCard office="nm" towns="Las Cruces, Mesilla, Doña Ana County and El Paso." />
     </Grid>
   </Section>
-
-  <Section compact>
-    <Split>
-      <h2 slot="side" class="title-sm">Who I work best with</h2>
-      <CheckList
-        items={[
-          'Established service businesses that plan to be here for the long haul.',
-          'Owners who know their numbers and want more calls, not just more traffic.',
-          'Teams with a marketing budget who value a long-term partner over the lowest bid.',
-        ]}
-      />
-    </Split>
-  </Section>
-
-  <CtaBand title="Let's talk about your website">
-    30 minutes, no pressure. You'll leave with at least one thing you can fix this week.
-    <Fragment slot="after">Or call <Phone office="marin" /> · <Phone office="nm" /></Fragment>
-  </CtaBand>
 </BaseLayout>
 
 <style>
-  :global(.clients) {
-    border-bottom: 1px solid var(--line);
+  .center {
+    text-align: center;
   }
 
-  .reviews-head {
+  /* Hero: black and white Golden Gate backdrop with Shane's cut-out photo.
+     The bottom padding is the strip the blue and orange panels overlap. */
+  .hero {
+    --overlap: clamp(56px, 10vw, 150px);
+    padding-top: clamp(40px, 5vw, 72px);
+    padding-bottom: var(--overlap);
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.62)),
+      url('/assets/img/home/golden-gate-bridge.webp') center / cover no-repeat;
+  }
+
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 24px;
+    align-items: end;
+  }
+
+  .hero__copy {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-block: 24px;
+  }
+
+  .hero__hi {
+    font-family: var(--font-heading);
+    font-size: clamp(22px, 1vw + 16px, 30px);
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .hero__title {
+    font-size: clamp(38px, 4.4vw + 16px, 64px);
+    line-height: 1.05;
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .hero__sub {
+    font-family: var(--font-heading);
+    font-size: clamp(20px, 0.8vw + 16px, 27px);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px 16px;
-    justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
+    gap: 16px 24px;
+    margin-top: 12px;
+    font-size: 15px;
+    color: var(--text-strong);
+  }
+
+  .hero__photo {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    justify-self: end;
+  }
+
+  /* Blue and orange panels overlapping the bottom of the hero */
+  .panels {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: calc(-1 * clamp(56px, 10vw, 150px));
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: clamp(32px, 4vw, 52px) clamp(28px, 3.4vw, 44px);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  .panel--blue {
+    background: var(--blue);
+    color: var(--white);
+  }
+
+  .panel--orange {
+    background: var(--orange);
+    color: var(--ink);
+  }
+
+  .panel__eyebrow {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .panel__title {
+    font-size: clamp(26px, 1.4vw + 18px, 34px);
+    line-height: 1.15;
+    font-weight: 800;
+    color: inherit;
+  }
+
+  /* How I do it */
+  .how {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 40px 32px;
+  }
+
+  .how__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .how__icon {
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .how__item h3 {
+    font-size: 21px;
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .how__item p {
+    font-size: 16px;
+  }
+
+  .how__link {
+    margin-top: auto;
+    padding-top: 4px;
+    font-family: var(--font-heading);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--blue);
+  }
+
+  .how__item:hover .how__link {
+    text-decoration: underline;
+  }
+
+  /* Client logos */
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 32px clamp(32px, 5vw, 64px);
+    list-style: none;
+    padding: 0;
+  }
+
+  .logos img {
+    display: block;
+    width: auto;
+    height: 56px;
+    max-width: 180px;
+    object-fit: contain;
+  }
+
+  /* Testimonials with black and white headshots */
+  .reviews-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .testimonials {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 48px;
+  }
+
+  .testimonial {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    margin: 0;
+  }
+
+  .testimonial img {
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .testimonial blockquote {
+    margin: 0;
+    font-size: 17px;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--text-strong);
+  }
+
+  .testimonial figcaption {
+    align-self: stretch;
+    font-size: 15px;
+  }
+
+  .testimonial strong {
+    color: var(--ink);
+  }
+
+  /* Who I work with */
+  .fit-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 18px;
+  }
+
+  .fit {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .fit details {
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+  }
+
+  .fit summary {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .fit__plus {
+    position: relative;
+    flex: none;
+    width: 16px;
+    height: 16px;
+  }
+
+  .fit__plus::before,
+  .fit__plus::after {
+    content: '';
+    position: absolute;
+    inset: 7px 0 auto;
+    height: 2px;
+    background: currentColor;
+  }
+
+  .fit__plus::after {
+    transform: rotate(90deg);
+    transition: transform 0.2s;
+  }
+
+  .fit details[open] .fit__plus::after {
+    transform: rotate(0deg);
+  }
+
+  .fit details p {
+    padding: 0 22px 20px 52px;
+    font-size: 17px;
+  }
+
+  :global(.fit-section) {
+    padding-top: clamp(40px, 5vw, 64px);
+  }
+
+  /* Ready to get started: the bridge again, under a blue wash */
+  .ready {
+    padding-block: var(--section-y);
+    background:
+      linear-gradient(rgba(32, 81, 197, 0.9), rgba(32, 81, 197, 0.9)),
+      url('/assets/img/home/golden-gate-bridge-1024.webp') center / cover no-repeat;
+    color: var(--white);
+  }
+
+  .ready__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+    font-size: 18px;
+  }
+
+  .ready h2 {
+    color: var(--white);
+  }
+
+  .ready__phones {
+    font-size: 16px;
+  }
+
+  @media (max-width: 860px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .hero__photo {
+      justify-self: center;
+      max-width: 400px;
+    }
+
+    .panels {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

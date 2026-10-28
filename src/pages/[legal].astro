@@ -1,0 +1,23 @@
+---
+// Legal pages (privacy, terms, cookies, disclaimer, accessibility) from src/content/legal.
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Section from '@/components/Section.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('legal');
+  return pages.map((page) => ({ params: { legal: page.id }, props: { page } }));
+}
+
+const { page } = Astro.props as { page: CollectionEntry<'legal'> };
+const { Content } = await render(page);
+---
+
+<BaseLayout title={`${page.data.title} | PartnerPress`} description={page.data.description}>
+  <Section width="narrow">
+    <h1 class="title-lg">{page.data.title}</h1>
+    <div class="prose">
+      <Content />
+    </div>
+  </Section>
+</BaseLayout>

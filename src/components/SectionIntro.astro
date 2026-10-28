@@ -1,0 +1,38 @@
+---
+// Eyebrow, heading and optional lead paragraph that open a section.
+interface Props {
+  eyebrow?: string;
+  title: string;
+  /** Heading level; sections use h2 unless the intro opens the page. */
+  as?: 'h1' | 'h2';
+  size?: 'md' | 'sm';
+  align?: 'start' | 'center';
+}
+
+const { eyebrow, title, as: Tag = 'h2', size = 'md', align = 'start' } = Astro.props;
+---
+
+<div class:list={['intro', `intro--${align}`]}>
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+  <Tag class:list={[size === 'md' ? 'title-md' : 'title-sm']}>{title}</Tag>
+  {Astro.slots.has('default') && <div class="intro__lead"><slot /></div>}
+</div>
+
+<style>
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 760px;
+  }
+
+  .intro--center {
+    align-self: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .intro__lead {
+    font-size: 18px;
+  }
+</style>

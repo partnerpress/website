@@ -1,0 +1,42 @@
+---
+// Browser window frame around a site screenshot (placeholder until one is added).
+import Placeholder from '../Placeholder.astro';
+
+interface Props {
+  label?: string;
+}
+
+const { label = 'Screenshot of your best recent client site' } = Astro.props;
+---
+
+<div class="browser">
+  <div class="browser__bar" aria-hidden="true"><span></span><span></span><span></span></div>
+  <slot><Placeholder label={label} ratio="16 / 11" tone="plain" /></slot>
+</div>
+
+<style>
+  .browser {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+  }
+
+  .browser__bar {
+    display: flex;
+    gap: 6px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .browser__bar span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--line-strong);
+  }
+</style>

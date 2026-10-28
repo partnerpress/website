@@ -1,0 +1,46 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Section from '@/components/Section.astro';
+import Grid from '@/components/Grid.astro';
+import PostCard from '@/components/PostCard.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { getPosts } from '@/lib/blog';
+
+const posts = await getPosts();
+---
+
+<BaseLayout
+  title="WordPress, SEO and Google Ads Tips | PartnerPress Blog"
+  description="Plain-English guides on WordPress, Local SEO and Google Ads for small service businesses, from Shane Barnes at PartnerPress."
+  nav="blog"
+>
+  <PageHero eyebrow="Blog" title="WordPress, SEO and Google Ads, in plain English" centered>
+    <Fragment slot="lead">Practical guides for small business owners who want their website to pull its weight.</Fragment>
+  </PageHero>
+
+  <Section>
+    {
+      posts.length > 0 ? (
+        <Grid min={320}>
+          {posts.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </Grid>
+      ) : (
+        <p class="empty">New articles are on the way.</p>
+      )
+    }
+  </Section>
+
+  <CtaBand title="Rather have someone else handle it?">
+    Book a free 30-minute call and I'll look at your site with you.
+  </CtaBand>
+</BaseLayout>
+
+<style>
+  .empty {
+    text-align: center;
+    color: var(--muted);
+  }
+</style>

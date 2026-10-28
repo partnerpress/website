@@ -1,0 +1,46 @@
+---
+// Fixed bar on phones with a tap-to-call button and the booking link.
+import Button from './Button.astro';
+import { OFFICES, type OfficeKey } from '@/config/site';
+
+interface Props {
+  office?: OfficeKey;
+}
+
+const office = OFFICES[Astro.props.office ?? 'marin'];
+---
+
+<div class="call-bar" role="region" aria-label="Quick contact">
+  <Button href={`tel:${office.tel}`} variant="secondary">Call {office.phone}</Button>
+  <Button href="/contact/">Book a free call</Button>
+</div>
+
+<style>
+  .call-bar {
+    display: none;
+  }
+
+  @media (max-width: 720px) {
+    .call-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      display: flex;
+      gap: 10px;
+      padding: 10px max(12px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px))
+        max(12px, env(safe-area-inset-left, 0px));
+      background: var(--white);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -6px 20px rgba(16, 18, 22, 0.08);
+    }
+
+    .call-bar :global(.btn) {
+      flex: 1;
+      padding: 12px 10px;
+      font-size: 15px;
+      box-shadow: none;
+    }
+  }
+</style>

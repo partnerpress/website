@@ -1,0 +1,67 @@
+---
+// A full-width page band with consistent vertical rhythm.
+interface Props {
+  tone?: 'white' | 'subtle' | 'tint' | 'brand' | 'navy';
+  width?: 'default' | 'narrow';
+  id?: string;
+  label?: string;
+  class?: string;
+  /** Tighter vertical padding for short bands. */
+  compact?: boolean;
+}
+
+const { tone = 'white', width = 'default', id, label, class: className, compact = false } = Astro.props;
+---
+
+<section id={id} aria-label={label} class:list={['section', `section--${tone}`, compact && 'section--compact', className]}>
+  <div class:list={['container', width === 'narrow' && 'container--narrow', 'section__inner']}>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-block: var(--section-y);
+  }
+
+  .section--compact {
+    padding-block: clamp(40px, 5vw, 72px);
+  }
+
+  .section--white {
+    background: var(--white);
+  }
+
+  .section--subtle {
+    background: var(--surface);
+  }
+
+  .section--tint {
+    background: var(--blue-50);
+  }
+
+  .section--brand {
+    background: var(--blue);
+    color: var(--white);
+  }
+
+  .section--navy {
+    background: var(--blue-900);
+    color: var(--white);
+  }
+
+  .section--brand :global(h1),
+  .section--brand :global(h2),
+  .section--brand :global(h3),
+  .section--navy :global(h1),
+  .section--navy :global(h2),
+  .section--navy :global(h3) {
+    color: var(--white);
+  }
+
+  .section__inner {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(28px, 3vw, 44px);
+  }
+</style>

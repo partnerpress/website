@@ -1,0 +1,28 @@
+---
+// "★★★★★ 5.0 from 19 Google reviews"
+import { SITE } from '@/config/site';
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<span class="rating">
+  <span class="rating__stars" aria-hidden="true">★★★★★</span>
+  <strong>{SITE.reviews.rating}</strong>
+  {compact ? `· ${SITE.reviews.count} Google reviews` : `from ${SITE.reviews.count} Google reviews`}
+</span>
+
+<style>
+  .rating__stars {
+    color: var(--orange-600);
+    letter-spacing: 2px;
+  }
+
+  .rating strong {
+    color: inherit;
+    font-weight: 700;
+  }
+</style>

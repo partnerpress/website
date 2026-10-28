@@ -1,0 +1,167 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Section from '@/components/Section.astro';
+import SectionIntro from '@/components/SectionIntro.astro';
+import Split from '@/components/Split.astro';
+import Grid from '@/components/Grid.astro';
+import Button from '@/components/Button.astro';
+import Feature from '@/components/Feature.astro';
+import Steps from '@/components/Steps.astro';
+import CaseStudyCard from '@/components/CaseStudyCard.astro';
+import ReviewQuote from '@/components/ReviewQuote.astro';
+import FaqList from '@/components/FaqList.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Phone from '@/components/Phone.astro';
+import BrowserFrame from '@/components/mockups/BrowserFrame.astro';
+import { REVIEWS } from '@/data/reviews';
+import { WEB_DESIGN_FAQS } from '@/data/faqs';
+
+const included = [
+  { title: 'Fast on phones', text: 'Lean builds without slider and page-builder bloat, aimed at Google\'s "good" Core Web Vitals.' },
+  { title: 'Built to convert', text: 'Click-to-call on every page, short forms, clear next steps, and call and form tracking set up at launch.' },
+  { title: 'SEO-ready', text: 'Service and location pages, clean structure, schema markup and Search Console from day one.' },
+  { title: 'Accessible', text: 'Designed and tested so everyone can use it, with an accessibility statement and compliant policies.' },
+  { title: 'Easy to edit', text: 'Update text, photos and posts yourself in the WordPress editor, with a walkthrough at launch.' },
+  { title: 'Safe launch', text: "Redirects from every old URL so a redesign doesn't cost you the rankings you've already earned." },
+];
+
+const startingPoints = [
+  { title: 'No website yet', text: 'A complete first site with the pages, copy structure and setup a local business needs.' },
+  { title: 'An outdated site', text: "A redesign that keeps what works, fixes what doesn't, and protects your existing rankings." },
+  { title: 'Another platform', text: 'Moving from Wix, Squarespace, Joomla or Drupal to WordPress, with your content carried over.' },
+  { title: 'An inherited mess', text: 'Developer disappeared? I untangle the site, merge duplicates and get it stable again.' },
+];
+
+const steps = [
+  { title: 'Discovery call', text: 'Goals, services, customers and competitors.' },
+  { title: 'Plan', text: 'Sitemap, page goals and a fixed quote.' },
+  { title: 'Design', text: 'Homepage and key page designs for your review.' },
+  { title: 'Build', text: 'Development on a private staging site.' },
+  { title: 'Launch', text: 'Redirects, tracking and testing, then go live.' },
+  { title: 'Care', text: 'Optional care plan keeps it fast and secure.' },
+];
+---
+
+<BaseLayout
+  title="WordPress Web Design for Local Businesses | PartnerPress"
+  description="Fast, mobile-first WordPress websites built to turn visitors into calls. New sites, redesigns and migrations with a fixed quote up front."
+  nav="web-design"
+>
+  <PageHero eyebrow="WordPress design and development" title="A WordPress website built to make your phone ring">
+    <Fragment slot="lead">
+      Fast, mobile-first sites for local service businesses, designed around one goal: turning visitors into calls and
+      inquiries. Built by a WordPress specialist since 2010.
+    </Fragment>
+    <Fragment slot="actions">
+      <Button href="/contact/" size="lg">Start your project</Button>
+      <Button href="#work" variant="secondary" size="lg">See recent work</Button>
+    </Fragment>
+    <BrowserFrame slot="aside" />
+  </PageHero>
+
+  <Section>
+    <SectionIntro eyebrow="Every site includes" title="Built right from the start" />
+    <Grid min={260} gap="32px 28px">
+      {included.map((f) => <Feature title={f.title}>{f.text}</Feature>)}
+    </Grid>
+  </Section>
+
+  <Section tone="subtle">
+    <SectionIntro title="Where are you starting from?" />
+    <Grid min={250} gap="20px">
+      {startingPoints.map((f) => <Feature title={f.title} boxed>{f.text}</Feature>)}
+    </Grid>
+  </Section>
+
+  <Section>
+    <SectionIntro title="How a project runs" />
+    <Steps steps={steps} min={170} />
+  </Section>
+
+  <Section tone="subtle" id="work">
+    <SectionIntro title="Recent websites" />
+    <Grid min={300}>
+      <CaseStudyCard label="[Industry · Town]" result="[Client name]" />
+      <CaseStudyCard label="[Industry · Town]" result="[Client name]" />
+      <CaseStudyCard label="[Industry · Town]" result="[Client name]" />
+    </Grid>
+  </Section>
+
+  <Section>
+    <Grid min={320}>
+      <ReviewQuote review={REVIEWS.perryRebrand} variant="tint" />
+      <ReviewQuote review={REVIEWS.wombacher} variant="tint" />
+    </Grid>
+  </Section>
+
+  <Section tone="subtle">
+    <Split align="center">
+      <SectionIntro slot="side" eyebrow="Pricing" title="A fixed quote before any work starts">
+        Every project is quoted after the discovery call, so you know the full cost up front. No hourly surprises.
+      </SectionIntro>
+      <div class="price-card">
+        <span class="price-card__label">WordPress websites</span>
+        <span class="price-card__amount"><span>From </span>[PRICE]</span>
+        <ul>
+          <li>Typical timeline: [X to Y] weeks</li>
+          <li>You own the site, the domain and all content</li>
+          <li>Add a <a href="/wordpress-care-plans/">care plan</a> after launch from $249/month</li>
+        </ul>
+        <Button href="/contact/" size="lg" block>Get a fixed quote</Button>
+      </div>
+    </Split>
+  </Section>
+
+  <Section width="narrow">
+    <FaqList faqs={WEB_DESIGN_FAQS} />
+  </Section>
+
+  <CtaBand title="Ready for a site that works as hard as you do?" button="Start your project">
+    Marin <Phone office="marin" /> · Las Cruces <Phone office="nm" />
+  </CtaBand>
+</BaseLayout>
+
+<style>
+  .price-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 36px;
+    background: var(--white);
+    border: 2px solid var(--blue);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-brand);
+  }
+
+  .price-card__label {
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  .price-card__amount {
+    font-family: var(--font-heading);
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .price-card__amount span {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 18px 0 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+    font-size: 15px;
+    color: var(--text-strong);
+  }
+</style>

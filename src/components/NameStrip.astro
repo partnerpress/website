@@ -1,0 +1,51 @@
+---
+// A row of client names (text until logo files are available).
+interface Props {
+  names: string[];
+  label?: string;
+  align?: 'start' | 'center';
+}
+
+const { names, label, align = 'center' } = Astro.props;
+---
+
+<div class:list={['strip', `strip--${align}`]}>
+  {label && <span class="strip__label">{label}</span>}
+  <ul>
+    {names.map((n) => <li>{n}</li>)}
+  </ul>
+</div>
+
+<style>
+  .strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 40px;
+    align-items: center;
+  }
+
+  .strip--center {
+    justify-content: center;
+  }
+
+  .strip__label {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--subtle);
+  }
+
+  ul {
+    display: contents;
+    list-style: none;
+  }
+
+  li {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+</style>

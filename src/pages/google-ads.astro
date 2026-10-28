@@ -1,0 +1,203 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Section from '@/components/Section.astro';
+import SectionIntro from '@/components/SectionIntro.astro';
+import Split from '@/components/Split.astro';
+import Grid from '@/components/Grid.astro';
+import Button from '@/components/Button.astro';
+import Feature from '@/components/Feature.astro';
+import CheckList from '@/components/CheckList.astro';
+import Steps from '@/components/Steps.astro';
+import FaqList from '@/components/FaqList.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Phone from '@/components/Phone.astro';
+import AdMock from '@/components/mockups/AdMock.astro';
+import { ADS_FAQS } from '@/data/faqs';
+
+const included = [
+  'Keyword and competitor research for your area',
+  'Campaign build: ad copy, extensions and call ads',
+  'Location and schedule targeting',
+  'Call and form conversion tracking',
+  'Landing page tune-ups on your WordPress site',
+  'Click fraud protection',
+  'Weekly bid, keyword and search-term reviews',
+  'Monthly report: spend, calls, leads and cost per lead',
+];
+
+const steps = [
+  { title: 'Free review', text: 'We talk goals, service area and budget. If you already run ads, I review the account.' },
+  { title: 'Build', text: 'Keywords, ads, tracking and landing page set up and tested before launch.' },
+  { title: 'Launch', text: 'Ads go live within [X] days. I watch daily during the first weeks.' },
+  { title: 'Improve', text: 'Weekly tuning and a monthly report on calls, leads and cost per lead.' },
+];
+---
+
+<BaseLayout
+  title="Google Ads Management for Local Businesses | PartnerPress"
+  description="Local Google Ads campaigns managed by a Google Partner for one flat monthly fee. Call tracking, no contract, and you own the account."
+  nav="google-ads"
+>
+  <PageHero
+    eyebrow="Google Ads management · Marin County and Las Cruces"
+    title="Get to the top of Google while your SEO catches up"
+    tone="navy"
+  >
+    <Fragment slot="lead">
+      Local Google Ads campaigns built to make your phone ring, managed by a Google Partner for one flat monthly fee. You
+      own the account. No contract.
+    </Fragment>
+    <Fragment slot="actions">
+      <Button href="/contact/" size="lg">Get a free ads review</Button>
+      <span class="hero-note">Already running ads? I'll review your account on the call.</span>
+    </Fragment>
+    <AdMock slot="aside" />
+  </PageHero>
+
+  <Section>
+    <Split>
+      <SectionIntro slot="side" eyebrow="Why Google Ads" title="Calls this month, not next year">
+        SEO builds over months. Ads put you in front of people searching right now, and the data shows which keywords are
+        worth ranking for.
+      </SectionIntro>
+      <Grid min={230} gap="32px">
+        <Feature title="Only local searchers">Ads show only inside your service area, at the hours you can answer the phone.</Feature>
+        <Feature title="Pay for clicks, not views">You pay Google only when someone clicks or calls, and you set the budget.</Feature>
+        <Feature title="Every call tracked">Call and form tracking show exactly which keywords and ads bring in customers.</Feature>
+        <Feature title="Wasted spend blocked">Negative keywords and click fraud protection keep your budget on real customers.</Feature>
+      </Grid>
+    </Split>
+  </Section>
+
+  <Section tone="subtle">
+    <SectionIntro eyebrow="What's included" title="Everything from setup to the monthly report" />
+    <CheckList items={included} columns />
+  </Section>
+
+  <Section>
+    <Split align="center">
+      <SectionIntro slot="side" eyebrow="Pricing" title="One flat fee. No percentage of your spend.">
+        My fee stays the same as your budget grows, so I never have a reason to push you to spend more. Your ad budget goes
+        straight to Google, on your own card.
+      </SectionIntro>
+      <div class="price-card">
+        <div>
+          <h3>Google Ads management</h3>
+          <p class="muted">For one business and one service area.</p>
+        </div>
+        <span class="price-card__amount">[FLAT FEE]<span>/month</span></span>
+        <ul>
+          <li>Plus your ad budget, paid to Google directly</li>
+          <li>Recommended starting budget: [AD BUDGET]/month</li>
+          <li>One-time setup: [SETUP FEE or "included"]</li>
+          <li>Month to month, cancel any time</li>
+          <li>You own the account and all its data</li>
+        </ul>
+        <Button href="/contact/" size="lg" block>Get a free ads review</Button>
+      </div>
+    </Split>
+  </Section>
+
+  <Section tone="tint" compact>
+    <div class="together">
+      <div>
+        <h2 class="title-sm">Better together: ads and local SEO</h2>
+        <p>
+          Ads bring calls now and show which searches turn into customers. SEO uses that data to win those searches for free
+          over time. Ask about running both.
+        </p>
+      </div>
+      <a href="/local-seo/">See Local SEO plans</a>
+    </div>
+  </Section>
+
+  <Section>
+    <SectionIntro title="From first call to first lead" />
+    <Steps steps={steps} />
+  </Section>
+
+  <Section tone="subtle" width="narrow">
+    <FaqList faqs={ADS_FAQS} />
+  </Section>
+
+  <CtaBand title="See what your clicks would cost" button="Get a free ads review">
+    Free 30-minute call. Marin <Phone office="marin" /> · Las Cruces <Phone office="nm" />
+  </CtaBand>
+</BaseLayout>
+
+<style>
+  .hero-note {
+    font-size: 16px;
+    color: var(--blue-100);
+  }
+
+  .price-card {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 36px;
+    background: var(--white);
+    border: 2px solid var(--blue);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-brand);
+  }
+
+  .price-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .price-card p {
+    margin-top: 6px;
+    font-size: 15px;
+  }
+
+  .price-card__amount {
+    font-family: var(--font-heading);
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .price-card__amount span {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .price-card ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 18px 0 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+    font-size: 15px;
+    color: var(--text-strong);
+  }
+
+  .together {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 32px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .together > div {
+    flex: 1 1 560px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .together a {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+// Pill button from the design system. Renders a link, or a <button> when no href is given.
+//   primary   PartnerPress blue with white text: the main call to action.
+//   secondary white with a blue outline.
+//   inverse   white with blue text, for use on blue or navy backgrounds.
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'inverse';
+  size?: 'md' | 'lg';
+  block?: boolean;
+  type?: 'button' | 'submit';
+  class?: string;
+}
+
+const { href, variant = 'primary', size = 'md', block = false, type = 'button', class: className } = Astro.props;
+const classes = ['btn', `btn--${variant}`, size === 'lg' && 'btn--lg', block && 'btn--block', className];
+---
+
+{
+  href ? (
+    <a class:list={classes} href={href}>
+      <slot />
+    </a>
+  ) : (
+    <button class:list={classes} type={type}>
+      <slot />
+    </button>
+  )
+}
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 12px 22px;
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      transform 120ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      filter 120ms,
+      background-color 120ms;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn--lg {
+    min-height: 52px;
+    padding: 16px 30px;
+    font-size: 18px;
+  }
+
+  .btn--block {
+    display: flex;
+    width: 100%;
+  }
+
+  .btn--primary {
+    background: var(--blue);
+    color: var(--white);
+    box-shadow: 0 12px 32px rgba(32, 81, 197, 0.28);
+  }
+
+  .btn--primary:hover {
+    color: var(--white);
+    filter: brightness(0.92);
+  }
+
+  .btn--secondary {
+    background: var(--white);
+    color: var(--blue);
+    border-color: var(--blue);
+  }
+
+  .btn--secondary:hover {
+    background: var(--blue-50);
+    color: var(--blue);
+  }
+
+  .btn--inverse {
+    background: var(--white);
+    color: var(--blue);
+    box-shadow: 0 10px 26px rgba(12, 29, 69, 0.25);
+  }
+
+  .btn--inverse:hover {
+    background: var(--blue-50);
+    color: var(--blue);
+  }
+
+  @media (max-width: 480px) {
+    .btn {
+      white-space: normal;
+      text-align: center;
+    }
+  }
+</style>

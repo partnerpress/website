@@ -1,0 +1,36 @@
+---
+// LocalBusiness structured data for one or both offices.
+import { SITE, OFFICES, type OfficeKey } from '@/config/site';
+
+interface Props {
+  offices: OfficeKey[];
+}
+
+const graph = Astro.props.offices.map((key) => {
+  const o = OFFICES[key];
+  return {
+    '@type': 'ProfessionalService',
+    '@id': `${SITE.url}${o.page}#business`,
+    name: SITE.name,
+    url: `${SITE.url}${o.page}`,
+    telephone: o.tel,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: o.street,
+      addressLocality: o.city,
+      addressRegion: o.region,
+      postalCode: o.postalCode,
+      addressCountry: 'US',
+    },
+    areaServed: o.areaServed,
+    description: SITE.tagline,
+    founder: { '@type': 'Person', name: SITE.owner },
+    foundingDate: String(SITE.founded),
+    openingHours: SITE.hoursSchema,
+  };
+});
+
+const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
+---
+
+<script type="application/ld+json" set:html={json} />

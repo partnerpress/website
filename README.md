@@ -1,62 +1,77 @@
-# partnerpress.net
+# PartnerPress website
 
-Static website for PartnerPress, LLC: WordPress design, WordPress care plans, Local SEO and Google Ads for service businesses in Marin County, CA and Las Cruces, NM. Built for Netlify.
+The partnerpress.net site, built with [Astro](https://astro.build) as a static site and hosted on Netlify.
 
-## How it's organized
+## Run it locally
 
+Needs Node 22.23.4 or newer (Node 24 recommended).
+
+```bash
+npm install
+npm run dev      # local server with live reload at http://localhost:4321
+npm run build    # production build into dist/
+npm run preview  # serve the built dist/ folder
+npm run check    # type and template check
 ```
-src/
-  partials/   head.html, header.html, footer.html (shared on every page)
-  pages/      one file per page: a <!--meta {...} --> block, then the page body
-static/       copied as-is: CSS, JS, logos, favicon, robots.txt, _redirects
-build.py      combines partials + pages into public/ and writes sitemap.xml
-public/       the finished site (committed, so it can also be uploaded by hand)
-netlify.toml  build command, publish folder, security headers
+
+## Where things live
+
+| What | Where |
+| --- | --- |
+| Business details (name, phones, addresses, hours, review count) | `src/config/site.ts` |
+| Services, care plans, SEO plans | `src/data/services.ts`, `src/data/plans.ts` |
+| Client reviews | `src/data/reviews.ts` |
+| FAQs | `src/data/faqs.ts` |
+| Towns and service areas | `src/data/locations.ts` |
+| Blog posts | `src/content/blog/*.md` |
+| Legal pages | `src/content/legal/*.md` |
+| Pages | `src/pages/` |
+| Reusable building blocks | `src/components/` |
+| Colors, fonts, spacing | `src/styles/global.css` |
+| Logos, favicon, robots.txt, redirects | `public/` |
+
+Change a price or phone number once in `src/config` or `src/data` and every page that shows it updates.
+
+## Blog
+
+Add a Markdown file to `src/content/blog/`. The file name becomes the URL, so `my-post.md` is published at `/blog/my-post/`.
+
+```markdown
+---
+title: Post title
+description: One or two sentences for search results and the blog index.
+pubDate: 2026-10-28
+tags: [wordpress]
+draft: true
+---
+
+Post body in Markdown.
 ```
 
-| Page | URL | Source |
-| --- | --- | --- |
-| Home | `/` | `src/pages/index.html` |
-| WordPress web design | `/wordpress-web-design/` | `src/pages/wordpress-web-design.html` |
-| WordPress care plans | `/wordpress-care-plans/` | `src/pages/wordpress-care-plans.html` |
-| Local SEO | `/local-seo/` | `src/pages/local-seo.html` |
-| Google Ads | `/google-ads/` | `src/pages/google-ads.html` |
-| Marin County | `/marin-county/` | `src/pages/marin-county.html` |
-| Las Cruces | `/las-cruces/` | `src/pages/las-cruces.html` |
-| About | `/about/` | `src/pages/about.html` |
-| Book a call | `/contact/` | `src/pages/contact.html` |
-| Thank you (after form) | `/thank-you/` | `src/pages/thank-you.html` |
-| Legal pages | `/privacy-policy/` etc. | `src/pages/*.html` |
+Set `draft: true` to keep a post off the live site. Drafts still show in `npm run dev` so you can preview them. Remove the line (or set it to `false`) to publish. Posts appear on `/blog/`, in the sitemap and in the RSS feed at `/rss.xml`.
 
-## Editing
+## Environment variables (Netlify)
 
-1. Edit a page in `src/pages/`, or the header and footer in `src/partials/`.
-2. Run `python3 build.py` (Python 3, no packages needed).
-3. Preview: `cd public && python3 -m http.server 8000`, then open http://localhost:8000.
-4. Commit `src/` and `public/` together.
-
-Each page's `<!--meta -->` block sets its title, meta description, URL, which menu item is highlighted (`nav`), which phone number the phone call bar uses (`phone`: `marin` or `nm`), and its LocalBusiness schema (`schema`).
+| Variable | Purpose |
+| --- | --- |
+| `PUBLIC_GA4_ID` | GA4 measurement ID (for example `G-XXXXXXX`). Analytics only load when this is set. |
+| `SITE_INDEXABLE` | Optional override. `true` forces indexing, `false` forces noindex. |
 
 ## Search engine visibility
 
-The build hides the site from search engines everywhere except the live site. Unless Netlify is building production for partnerpress.net, every page gets `<meta name="robots" content="noindex">` and Netlify sends an `X-Robots-Tag: noindex, nofollow` header (via a generated `public/_headers`). That covers partnerpress.netlify.app, deploy previews and branch deploys, while Huddlekit and visitors can still open the pages.
+Only the live production deploy on partnerpress.net can be indexed. Every other build (deploy previews, branch deploys, the netlify.app address, local builds) gets a `noindex` robots tag on every page and an `X-Robots-Tag: noindex, nofollow` header. The build log says which mode it used.
 
-Once partnerpress.net is the site's primary domain in Netlify, the next production deploy is indexable automatically. To force it either way, set the `SITE_INDEXABLE` environment variable to `true` or `false`. Leave `robots.txt` open: crawlers have to fetch a page to see its noindex.
+## Deploying
 
-## Deploying on Netlify
-
-1. Netlify > Add new site > Import from Git > pick this repository. `netlify.toml` already sets the build command (`python3 build.py`) and publish folder (`public`).
-2. Point the partnerpress.net domain at Netlify (Domain settings) and turn on HTTPS.
-3. Forms > enable form detection, then add an email notification for the `book-a-call` form.
-4. Check the deploy log says "search engines: allowed (live site)" after the domain switch.
-5. After launch: submit `https://partnerpress.net/sitemap.xml` in Search Console and watch Pages > Not indexed for any old URL that still 404s.
-
-`static/_redirects` 301-redirects every old WordPress URL that appeared in Search Console to its new page, so existing rankings carry over.
+Netlify reads `netlify.toml`: it runs `npm run build` on Node 24 and publishes `dist/`. Forms are handled by Netlify Forms (form name `book-a-call`). Old WordPress URLs are redirected in `public/_redirects`.
 
 ## Before launch
 
-- [ ] Fill in every `[PLACEHOLDER]` (prices, timelines, case studies, photos). The full list is the "Fill in placeholders on website redesign" task in Clearview.
-- [ ] Paste the Termageddon embed code into each legal page in `src/pages/` (privacy, terms, cookies, disclaimer, accessibility).
-- [ ] Add the GA4 measurement ID in `src/partials/head.html` and uncomment the tag. `site.js` already sends `phone_call_click` and `email_click` events.
-- [ ] Decide what to do with pages that exist on the WordPress site but not here: the blog posts, and any client pages such as `/support-details/`, `/credit-card-update-request/` and `/account-access-request/`. Old blog URLs currently redirect to the homepage.
-- [ ] Confirm the facts flagged in the Clearview checklist (Google Partner status, Ghilotti Bros. in the Marin client list, click fraud protection, About page wording).
+- Replace every `[SQUARE BRACKET]` placeholder (highlighted in orange on the site).
+- Paste the Termageddon embed code into each file in `src/content/legal/`.
+- Add real photos and client screenshots where the placeholder boxes are.
+- Review the blog post in `src/content/blog/`.
+- Set `PUBLIC_GA4_ID` in Netlify.
+- Turn on form notifications for `book-a-call` in Netlify.
+- Point partnerpress.net at Netlify and confirm the build log says "search engines: allowed".
+- Submit `https://partnerpress.net/sitemap-index.xml` in Google Search Console.

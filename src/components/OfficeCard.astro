@@ -1,0 +1,63 @@
+---
+// One office: name, the towns it covers, address and phone, linking to its location page.
+import { OFFICES, type OfficeKey } from '@/config/site';
+
+interface Props {
+  office: OfficeKey;
+  towns: string;
+}
+
+const { office, towns } = Astro.props;
+const o = OFFICES[office];
+---
+
+<a class="office" href={o.page}>
+  <h3>{o.name}</h3>
+  <p>{towns}</p>
+  <address>
+    {o.street}, {o.city}, {o.region}
+    {o.postalCode}
+    <br />
+    <strong>{o.phone}</strong>
+  </address>
+  <span class="office__link">{o.short === 'Marin' ? 'Marin County' : o.short} services</span>
+</a>
+
+<style>
+  .office {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 32px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .office:hover {
+    color: var(--text);
+    border-color: var(--blue-300);
+  }
+
+  h3 {
+    font-size: 26px;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  address {
+    font-size: 16px;
+    color: var(--text-strong);
+  }
+
+  .office__link {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--blue);
+  }
+</style>

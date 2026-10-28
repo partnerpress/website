@@ -1,0 +1,91 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Section from '@/components/Section.astro';
+import SectionIntro from '@/components/SectionIntro.astro';
+import Grid from '@/components/Grid.astro';
+import Button from '@/components/Button.astro';
+import Feature from '@/components/Feature.astro';
+import PricingCard from '@/components/PricingCard.astro';
+import ReviewQuote from '@/components/ReviewQuote.astro';
+import FaqList from '@/components/FaqList.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import MapPackMock from '@/components/mockups/MapPackMock.astro';
+import { OFFICES } from '@/config/site';
+import { SEO_PLANS } from '@/data/plans';
+import { SEO_FAQS } from '@/data/faqs';
+import { REVIEWS } from '@/data/reviews';
+
+const included = [
+  { title: 'Google Business Profile', text: 'Categories, services, photos and posts set up to win the map pack, plus Yelp and BBB listings kept consistent.' },
+  { title: 'Reviews', text: 'Review monitoring and a simple way to ask happy customers, so new reviews keep coming in.' },
+  { title: 'Local content', text: 'New service and city pages every month, written for the searches your customers actually type.' },
+  { title: 'Technical SEO', text: 'Weekly checks for broken links, slow pages, accessibility errors and Search Console warnings.' },
+  { title: 'Competitor tracking', text: 'I watch who outranks you and why, then adjust the plan to close the gap.' },
+  { title: 'Reports you can read', text: 'A plain-English report each month and a strategy meeting each quarter.' },
+];
+---
+
+<BaseLayout
+  title="Local SEO Services in Marin County & Las Cruces | PartnerPress"
+  description="Get into the Google map pack. Google Business Profile, reviews, local content and technical SEO for Marin County and Las Cruces businesses."
+  nav="local-seo"
+>
+  <PageHero eyebrow="Local SEO · Marin County and Las Cruces" title="Show up when locals search for what you do">
+    <Fragment slot="lead">
+      Most calls from Google start in the map pack and the first few results. I get your business into those spots and
+      keep it there, with a WordPress care plan included so the site underneath stays fast and healthy.
+    </Fragment>
+    <Fragment slot="actions">
+      <Button href="/contact/" size="lg">Get a free local SEO review</Button>
+      <Button href="#pricing" variant="secondary" size="lg">See pricing</Button>
+    </Fragment>
+    <MapPackMock slot="aside" />
+  </PageHero>
+
+  <Section>
+    <SectionIntro eyebrow="Every plan includes" title="The work that moves local rankings" />
+    <Grid min={260} gap="32px 28px">
+      {included.map((f) => <Feature title={f.title}>{f.text}</Feature>)}
+    </Grid>
+  </Section>
+
+  <Section tone="subtle" id="pricing">
+    <SectionIntro eyebrow="Pricing" title="Plans by how far you want to reach">
+      Every plan includes a WordPress Success Plan for your site. Month to month, no contract.
+    </SectionIntro>
+    <Grid min={300} class="plans">
+      {SEO_PLANS.map((plan) => <PricingCard plan={plan} />)}
+    </Grid>
+  </Section>
+
+  <Section>
+    <SectionIntro title="Local SEO where you are" size="sm" />
+    <Grid min={320}>
+      <Feature title="SEO in Marin County" href={OFFICES.marin.page} boxed>
+        Novato, San Rafael, Mill Valley, Sausalito and the rest of Marin. Office in Novato, {OFFICES.marin.phone}.
+      </Feature>
+      <Feature title="SEO in Las Cruces" href={OFFICES.nm.page} boxed>
+        Las Cruces, Mesilla, Doña Ana County and El Paso. Office in Las Cruces, {OFFICES.nm.phone}.
+      </Feature>
+    </Grid>
+  </Section>
+
+  <Section tone="tint" compact>
+    <ReviewQuote review={REVIEWS.jae} variant="feature" />
+  </Section>
+
+  <Section width="narrow">
+    <FaqList faqs={SEO_FAQS} />
+  </Section>
+
+  <CtaBand title="Find out where you rank today" button="Get a free local SEO review">
+    On a free call I'll show you where you appear for your top searches and what's holding you back.
+  </CtaBand>
+</BaseLayout>
+
+<style>
+  :global(.plans) {
+    align-items: start;
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+// Google Analytics 4, loaded only when PUBLIC_GA4_ID is set. Also records
+// phone and email link clicks as GA4 events (phone_call_click, email_click).
+import { GA4_ID } from '@/config/site';
+---
+
+{
+  GA4_ID && (
+    <>
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} />
+      <script is:inline define:vars={{ id: GA4_ID }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', id);
+      </script>
+    </>
+  )
+}
+
+<script>
+  document.addEventListener('click', (event) => {
+    const link = (event.target as Element | null)?.closest?.('a[href^="tel:"], a[href^="mailto:"]');
+    const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+    if (!link || typeof gtag !== 'function') return;
+    const href = link.getAttribute('href') ?? '';
+    gtag('event', href.startsWith('tel:') ? 'phone_call_click' : 'email_click', {
+      link_url: href,
+      page_location: window.location.pathname,
+    });
+  });
+</script>

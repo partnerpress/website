@@ -1,0 +1,48 @@
+---
+// "Areas I serve" band: heading on the left, place names on the right.
+interface Props {
+  title: string;
+  areas: string[];
+}
+
+const { title, areas } = Astro.props;
+---
+
+<div class="areas">
+  <div class="areas__intro">
+    <h2 class="title-sm">{title}</h2>
+    <p><slot /></p>
+  </div>
+  <ul>
+    {areas.map((a) => <li>{a}</li>)}
+  </ul>
+</div>
+
+<style>
+  .areas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px 64px;
+  }
+
+  .areas__intro {
+    flex: 1 1 320px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  ul {
+    flex: 2 1 520px;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 17px;
+    color: var(--text-strong);
+  }
+</style>

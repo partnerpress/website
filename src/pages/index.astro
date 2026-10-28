@@ -1,0 +1,155 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Section from '@/components/Section.astro';
+import SectionIntro from '@/components/SectionIntro.astro';
+import Split from '@/components/Split.astro';
+import Grid from '@/components/Grid.astro';
+import Button from '@/components/Button.astro';
+import Rating from '@/components/Rating.astro';
+import Placeholder from '@/components/Placeholder.astro';
+import ReviewQuote from '@/components/ReviewQuote.astro';
+import NameStrip from '@/components/NameStrip.astro';
+import ServiceCard from '@/components/ServiceCard.astro';
+import Feature from '@/components/Feature.astro';
+import CaseStudyCard from '@/components/CaseStudyCard.astro';
+import TrustindexReviews from '@/components/TrustindexReviews.astro';
+import Steps from '@/components/Steps.astro';
+import OfficeCard from '@/components/OfficeCard.astro';
+import CheckList from '@/components/CheckList.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Phone from '@/components/Phone.astro';
+import { SERVICES, CLIENTS } from '@/data/services';
+import { REVIEWS } from '@/data/reviews';
+
+const steps = [
+  { title: 'Free 30-minute call', text: "Tell me about your business, your goals and what isn't working online." },
+  { title: 'A written plan', text: 'I review your site, rankings and competitors, then send a plan with clear pricing.' },
+  { title: 'Launch and report', text: 'Work starts within [X] days. You get a plain-English report every month.' },
+];
+---
+
+<BaseLayout
+  title="WordPress, Local SEO & Google Ads | PartnerPress"
+  description="WordPress design, care plans, Local SEO and Google Ads for service businesses in Marin County, CA and Las Cruces, NM. Since 2010. Book a free call."
+  schema={['marin', 'nm']}
+>
+  <PageHero eyebrow="WordPress · Local SEO · Google Ads" title="More calls for service businesses in Marin County and Las Cruces." size="xl">
+    <Fragment slot="lead">
+      I'm Shane Barnes. Since 2010 I've built, maintained and marketed WordPress sites for local service businesses. One
+      expert for your website, your Google rankings and your ads, so nothing falls through the cracks.
+    </Fragment>
+    <Fragment slot="actions">
+      <Button href="/contact/" size="lg">Book a free 30-minute call</Button>
+      <Button href="/wordpress-care-plans/" variant="secondary" size="lg">See plans and pricing</Button>
+    </Fragment>
+    <Fragment slot="meta">
+      <Rating />
+      <span>Google Partner</span>
+      <span>No long-term contracts</span>
+    </Fragment>
+    <Fragment slot="aside">
+      <Placeholder label="Photo: Shane with a client, or at his desk" />
+      <ReviewQuote review={REVIEWS.maxson} />
+    </Fragment>
+  </PageHero>
+
+  <Section label="Clients" compact class="clients">
+    <NameStrip names={CLIENTS} label="Trusted by" />
+  </Section>
+
+  <Section id="services">
+    <SectionIntro eyebrow="What I do" title="Four services that work better together">
+      Most small businesses hire a designer, an SEO and an ads person, then play referee. I do all four, so your site, your
+      rankings and your ads pull in the same direction.
+    </SectionIntro>
+    <Grid min={250} gap="20px">
+      {SERVICES.map((s) => <ServiceCard service={s} highlight={s.key === 'care'} />)}
+    </Grid>
+  </Section>
+
+  <Section tone="subtle">
+    <Split>
+      <SectionIntro slot="side" eyebrow="Why work with me" title="One partner who answers the phone">
+        You work with me directly. No account managers, no hand-offs, no surprise invoices.
+      </SectionIntro>
+      <Grid min={230} gap="32px">
+        <Feature title="Your site stays up">
+          Updates, backups, security scans and uptime monitoring, with a report every month so you can see the work.
+        </Feature>
+        <Feature title="Customers find you">
+          Local SEO and Google Business Profile work aimed at the searches your customers actually type.
+        </Feature>
+        <Feature title="Visitors become calls">
+          Clear pages, fast load times and ads that send people to the right page, tracked down to the phone call.
+        </Feature>
+        <Feature title="Plain English">Clients mention it in reviews: I explain what I'm doing and why, without jargon.</Feature>
+      </Grid>
+    </Split>
+  </Section>
+
+  <Section id="work">
+    <SectionIntro eyebrow="Results" title="Recent client work" />
+    <Grid min={300}>
+      <CaseStudyCard label="[Client] · Local SEO" result="[RESULT, e.g. +X% calls]" text="[One sentence: the problem, what you did, and the time frame.]" />
+      <CaseStudyCard label="[Client] · Redesign" result="[RESULT]" text="[One sentence: the problem, what you did, and the time frame.]" />
+      <CaseStudyCard label="[Client] · Google Ads" result="[RESULT]" text="[One sentence: the problem, what you did, and the time frame.]" />
+    </Grid>
+  </Section>
+
+  <Section tone="tint" id="reviews">
+    <div class="reviews-head">
+      <h2 class="title-md">What clients say</h2>
+      <Rating compact />
+    </div>
+    <TrustindexReviews />
+  </Section>
+
+  <Section>
+    <SectionIntro title="How we get started" />
+    <Steps steps={steps} min={260} />
+  </Section>
+
+  <Section tone="subtle" id="locations">
+    <SectionIntro eyebrow="Two home bases" title="Local in Marin County and Las Cruces" />
+    <Grid min={320}>
+      <OfficeCard
+        office="marin"
+        towns="Novato, San Rafael, Mill Valley, Sausalito, Larkspur, Corte Madera, Tiburon, San Anselmo, Fairfax and Petaluma."
+      />
+      <OfficeCard office="nm" towns="Las Cruces, Mesilla, Doña Ana County and El Paso." />
+    </Grid>
+  </Section>
+
+  <Section compact>
+    <Split>
+      <h2 slot="side" class="title-sm">Who I work best with</h2>
+      <CheckList
+        items={[
+          'Established service businesses that plan to be here for the long haul.',
+          'Owners who know their numbers and want more calls, not just more traffic.',
+          'Teams with a marketing budget who value a long-term partner over the lowest bid.',
+        ]}
+      />
+    </Split>
+  </Section>
+
+  <CtaBand title="Let's talk about your website">
+    30 minutes, no pressure. You'll leave with at least one thing you can fix this week.
+    <Fragment slot="after">Or call <Phone office="marin" /> · <Phone office="nm" /></Fragment>
+  </CtaBand>
+</BaseLayout>
+
+<style>
+  :global(.clients) {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .reviews-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+</style>

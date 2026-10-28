@@ -1,12 +1,30 @@
 ---
-// LocalBusiness structured data for one or both offices.
+// LocalBusiness structured data for one or both offices, each tied to the
+// nationwide PartnerPress organization. The home page also outputs the organization itself.
 import { SITE, OFFICES, type OfficeKey } from '@/config/site';
 
 interface Props {
   offices: OfficeKey[];
+  organization?: boolean;
 }
 
-const graph = Astro.props.offices.map((key) => {
+const { offices, organization = false } = Astro.props;
+const orgId = `${SITE.url}/#organization`;
+
+const org = {
+  '@type': 'Organization',
+  '@id': orgId,
+  name: SITE.name,
+  legalName: SITE.legalName,
+  url: `${SITE.url}/`,
+  logo: `${SITE.url}/assets/img/logo-color.svg`,
+  description: SITE.tagline,
+  founder: { '@type': 'Person', name: SITE.owner },
+  foundingDate: String(SITE.founded),
+  areaServed: { '@type': 'Country', name: 'United States' },
+};
+
+const graph: object[] = offices.map((key) => {
   const o = OFFICES[key];
   return {
     '@type': 'ProfessionalService',
@@ -27,8 +45,11 @@ const graph = Astro.props.offices.map((key) => {
     founder: { '@type': 'Person', name: SITE.owner },
     foundingDate: String(SITE.founded),
     openingHours: SITE.hoursSchema,
+    parentOrganization: { '@id': orgId },
   };
 });
+
+if (organization) graph.unshift(org);
 
 const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
 ---

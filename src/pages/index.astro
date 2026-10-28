@@ -16,6 +16,7 @@ import CaseStudyCard from '@/components/CaseStudyCard.astro';
 import TrustindexReviews from '@/components/TrustindexReviews.astro';
 import Steps from '@/components/Steps.astro';
 import OfficeCard from '@/components/OfficeCard.astro';
+import BusinessSchema from '@/components/BusinessSchema.astro';
 import CheckList from '@/components/CheckList.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import Phone from '@/components/Phone.astro';
@@ -31,13 +32,13 @@ const steps = [
 
 <BaseLayout
   title="WordPress, Local SEO & Google Ads | PartnerPress"
-  description="WordPress design, care plans, Local SEO and Google Ads for service businesses in Marin County, CA and Las Cruces, NM. Since 2010. Book a free call."
-  schema={['marin', 'nm']}
+  description="WordPress design, care plans, Local SEO and Google Ads for local service businesses across the U.S. Since 2010. Book a free call."
 >
-  <PageHero eyebrow="WordPress · Local SEO · Google Ads" title="More calls for service businesses in Marin County and Las Cruces." size="xl">
+  <BusinessSchema slot="head" offices={['marin', 'nm']} organization />
+  <PageHero eyebrow="WordPress · Local SEO · Google Ads" title="More calls for local service businesses." size="xl">
     <Fragment slot="lead">
-      I'm Shane Barnes. Since 2010 I've built, maintained and marketed WordPress sites for local service businesses. One
-      expert for your website, your Google rankings and your ads, so nothing falls through the cracks.
+      I'm Shane Barnes. Since 2010 I've built, maintained and marketed WordPress sites for service businesses across the
+      U.S. One expert for your website, your Google rankings and your ads, so nothing falls through the cracks.
     </Fragment>
     <Fragment slot="actions">
       <Button href="/contact/" size="lg">Book a free 30-minute call</Button>
@@ -110,8 +111,32 @@ const steps = [
     <Steps steps={steps} min={260} />
   </Section>
 
-  <Section tone="subtle" id="locations">
-    <SectionIntro eyebrow="Two home bases" title="Local in Marin County and Las Cruces" />
+  <Section tone="subtle" id="remote">
+    <Split>
+      <SectionIntro slot="side" eyebrow="Wherever you are" title="Working together, from anywhere in the U.S.">
+        You don't need to be nearby to work with me. Here's how it works when we're a few time zones apart.
+      </SectionIntro>
+      <Grid min={230} gap="32px">
+        <Feature title="Calls on your clock">
+          We meet by phone or video at a time that works in your time zone. Screen sharing makes walkthroughs easy.
+        </Feature>
+        <Feature title="Reports you can read">
+          A plain-English report every month: what I did, what changed and what's next, sent to your inbox.
+        </Feature>
+        <Feature title="Your direct line">
+          Questions go straight to me by phone or email, not to a ticket queue or an account manager.
+        </Feature>
+        <Feature title="Local work, anywhere">
+          Local SEO and ads are built around your town, your competitors and your customers, not mine.
+        </Feature>
+      </Grid>
+    </Split>
+  </Section>
+
+  <Section id="locations">
+    <SectionIntro eyebrow="Two home bases" title="Prefer to meet in person?" size="sm">
+      If you're near Marin County or Las Cruces, I'm happy to sit down with you.
+    </SectionIntro>
     <Grid min={320}>
       <OfficeCard
         office="marin"

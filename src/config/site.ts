@@ -7,7 +7,7 @@ export const SITE = {
   url: 'https://partnerpress.net',
   owner: 'Shane Barnes',
   founded: 2010,
-  tagline: 'WordPress, Local SEO and Google Ads for local service businesses.',
+  tagline: 'WordPress, Local SEO and Google Ads for local service businesses across the U.S.',
   hours: 'Monday to Friday, 9:00 am to 5:00 pm',
   hoursSchema: 'Mo-Fr 09:00-17:00',
   reviews: { rating: '5.0', count: 19 },

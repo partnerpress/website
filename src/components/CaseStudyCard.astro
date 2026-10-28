@@ -1,0 +1,62 @@
+---
+// Client result card. Fields in [brackets] are placeholders until real case studies are written.
+import Placeholder from './Placeholder.astro';
+
+interface Props {
+  label: string;
+  result: string;
+  text?: string;
+  /** Screenshot label, or false for a text-only card. */
+  image?: string | false;
+}
+
+const { label, result, text, image = 'Site screenshot' } = Astro.props;
+---
+
+<article class="case">
+  {image && <Placeholder label={image} ratio="16 / 10" tone="plain" />}
+  <div class="case__body">
+    <span class="case__label">{label}</span>
+    <span class="case__result">{result}</span>
+    {text && <p>{text}</p>}
+  </div>
+</article>
+
+<style>
+  .case {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .case__body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 24px;
+  }
+
+  .case__label {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--subtle);
+  }
+
+  .case__result {
+    font-family: var(--font-heading);
+    font-size: clamp(24px, 1.4vw + 17px, 32px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--blue);
+  }
+
+  p {
+    font-size: 16px;
+  }
+</style>

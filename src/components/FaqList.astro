@@ -1,0 +1,67 @@
+---
+// Common questions as a static list, with FAQPage structured data.
+import type { Faq } from '@/data/faqs';
+
+interface Props {
+  faqs: Faq[];
+  title?: string;
+}
+
+const { faqs, title = 'Common questions' } = Astro.props;
+
+// Questions whose answer is still a [PLACEHOLDER] stay out of the structured data.
+const ready = faqs.filter((f) => !f.a.trim().startsWith('['));
+const schema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: ready.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+});
+---
+
+<div class="faq">
+  <h2 class="title-sm">{title}</h2>
+  <dl>
+    {
+      faqs.map((f) => (
+        <div class="faq__item">
+          <dt>{f.q}</dt>
+          <dd>{f.a}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</div>
+{ready.length > 0 && <script type="application/ld+json" set:html={schema} />}
+
+<style>
+  .faq {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  dl {
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .faq__item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-block: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  dt {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  dd {
+    margin: 0;
+    font-size: 16px;
+  }
+</style>

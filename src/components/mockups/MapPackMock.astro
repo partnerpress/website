@@ -1,0 +1,112 @@
+---
+// Illustration of a Google map-pack result with "Your Business" on top.
+// The business names, ratings and search are examples, not real data.
+import Icon from '../Icon.astro';
+---
+
+<div class="mock" role="img" aria-label="Example of a Google map pack result with your business listed first">
+  <div class="mock__search"><Icon name="search" size={18} /> plumber near me</div>
+  <div class="mock__map" aria-hidden="true">
+    <span class="pin pin--you"></span>
+    <span class="pin"></span>
+    <span class="pin"></span>
+  </div>
+  <div class="mock__results" aria-hidden="true">
+    <div class="result result--you">
+      <strong>Your Business</strong>
+      <span><span class="stars">★★★★★</span> 4.9 (87) · Open now · Call</span>
+    </div>
+    <div class="result">
+      <strong>Competitor A</strong>
+      <span>4.3 (21)</span>
+    </div>
+    <div class="result">
+      <strong>Competitor B</strong>
+      <span>4.6 (9)</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mock {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .mock__search {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  .mock__map {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    background: var(--blue-100);
+  }
+
+  .pin {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50% 50% 50% 0;
+    background: var(--blue-300);
+    transform: rotate(-45deg);
+  }
+
+  .pin--you {
+    width: 22px;
+    height: 22px;
+    background: var(--orange);
+  }
+
+  .mock__results {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px 18px;
+  }
+
+  .result {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 12px;
+    font-size: 14px;
+    color: var(--subtle);
+  }
+
+  .result strong {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .result--you {
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--orange-50);
+    color: var(--muted);
+  }
+
+  .result--you strong {
+    color: var(--ink);
+  }
+
+  .stars {
+    color: var(--orange-600);
+  }
+</style>

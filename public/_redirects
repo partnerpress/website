@@ -1,5 +1,6 @@
 # 301 redirects from the old WordPress site to the new static pages.
-# Netlify matches with or without the trailing slash.
+# Netlify matches with or without the trailing slash. Real pages win over these
+# rules, so /blog/ and live posts are never redirected.
 
 # Service pages
 /services                                        /                            301
@@ -36,7 +37,7 @@
 
 # Content that no longer exists
 /clients                                         /                            301
-/blog/*                                          /                            301
-/blog                                            /                            301
+/blog/*                                          /blog/                       301
 /author/*                                        /about/                      301
-/sitemap                                         /sitemap.xml                 301
+/sitemap                                         /sitemap-index.xml           301
+/sitemap.xml                                     /sitemap-index.xml           301

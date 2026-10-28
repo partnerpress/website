@@ -1,0 +1,162 @@
+---
+// "Book a call" form, handled by Netlify Forms (form name: book-a-call).
+// "Choose plan" buttons link to /contact/?plan=Name and the script below pre-fills it.
+import Button from './Button.astro';
+import { OFFICES } from '@/config/site';
+
+const services = ['New website or redesign', 'WordPress care plan', 'Local SEO', 'Google Ads', 'Not sure yet'];
+const areas = ['Marin County, CA', 'Las Cruces, NM', 'Somewhere else'];
+---
+
+<form
+  name="book-a-call"
+  method="POST"
+  action="/thank-you/"
+  data-netlify="true"
+  netlify-honeypot="company-website"
+  class="form"
+  data-contact-form
+>
+  <input type="hidden" name="form-name" value="book-a-call" />
+  <p class="visually-hidden">
+    <label>Leave this empty <input name="company-website" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="form__row">
+    <div class="field">
+      <label for="f-name">Your name</label>
+      <input id="f-name" name="name" autocomplete="name" placeholder="Jane Smith" required />
+    </div>
+    <div class="field">
+      <label for="f-business">Business name</label>
+      <input id="f-business" name="business" autocomplete="organization" placeholder="Smith Plumbing" />
+    </div>
+  </div>
+
+  <div class="form__row">
+    <div class="field">
+      <label for="f-email">Email</label>
+      <input id="f-email" name="email" type="email" autocomplete="email" placeholder="jane@smithplumbing.com" required />
+    </div>
+    <div class="field">
+      <label for="f-phone">Phone</label>
+      <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="(415) 555-0100" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="f-website">Website (if you have one)</label>
+    <input id="f-website" name="website" placeholder="smithplumbing.com" />
+  </div>
+
+  <div class="field">
+    <label for="f-service">What do you need help with?</label>
+    <select id="f-service" name="service">
+      <option value="">Choose one</option>
+      {services.map((s) => <option>{s}</option>)}
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="f-area">Where is your business?</label>
+    <select id="f-area" name="area">
+      <option value="">Choose one</option>
+      {areas.map((a) => <option>{a}</option>)}
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="f-message">Anything else I should know?</label>
+    <textarea id="f-message" name="message" rows="4" placeholder="Goals, deadlines, what isn't working today"></textarea>
+  </div>
+
+  <Button type="submit" size="lg" block>Request my free call</Button>
+  <p class="form__note">
+    I'll never share your details. Prefer to talk now? Call <a href={`tel:${OFFICES.marin.tel}`}>{OFFICES.marin.phone}</a>.
+  </p>
+</form>
+
+<script>
+  const PLAN_SERVICE: Record<string, string> = {
+    Survive: 'WordPress care plan',
+    Strive: 'WordPress care plan',
+    Arrive: 'WordPress care plan',
+    County: 'Local SEO',
+    Region: 'Local SEO',
+    State: 'Local SEO',
+  };
+
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const plan = new URLSearchParams(window.location.search).get('plan');
+  if (form && plan && PLAN_SERVICE[plan]) {
+    const service = form.querySelector<HTMLSelectElement>('#f-service');
+    const message = form.querySelector<HTMLTextAreaElement>('#f-message');
+    if (service) service.value = PLAN_SERVICE[plan];
+    if (message && !message.value) message.value = `I'm interested in the ${plan} plan.`;
+  }
+</script>
+
+<style>
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: clamp(22px, 3vw, 36px);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .form__row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+    gap: 16px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  label {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-strong);
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 11px 14px;
+    background: var(--white);
+    border: 1.5px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    font: inherit;
+    font-size: 16px;
+  }
+
+  textarea {
+    min-height: 110px;
+    resize: vertical;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: var(--focus);
+  }
+
+  .form__note {
+    font-size: 13px;
+    color: var(--subtle);
+    text-align: center;
+  }
+</style>

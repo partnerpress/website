@@ -1,0 +1,102 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CheckList from '@/components/CheckList.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import { OFFICES } from '@/config/site';
+---
+
+<BaseLayout
+  title="Book a Free 30-Minute Call | PartnerPress"
+  description="Tell me about your business and I'll reply within one business day to set up a free 30-minute call. Marin (415) 390-6563, Las Cruces (575) 517-4795."
+  nav="contact"
+>
+  <section class="contact">
+    <div class="container contact__inner">
+      <div class="contact__copy">
+        <span class="eyebrow">Free 30-minute call</span>
+        <h1 class="title-lg">Let's talk about your website</h1>
+        <p class="lead">Tell me a little about your business. I'll reply within one business day to set a time.</p>
+        <CheckList
+          items={[
+            'A quick review of your site and Google presence',
+            'At least one thing you can fix this week',
+            'No pressure and no long-term contract',
+          ]}
+        />
+        <div class="offices">
+          {
+            Object.values(OFFICES).map((o) => (
+              <div class="office">
+                <strong>{o.short === 'Marin' ? 'Marin County' : o.short}</strong>
+                <address>
+                  {o.street}, {o.city}, {o.region} {o.postalCode}
+                </address>
+                <a href={`tel:${o.tel}`}>{o.phone}</a>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="contact__form">
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact {
+    padding-block: clamp(56px, 7vw, 96px);
+    background: var(--surface);
+  }
+
+  .contact__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    align-items: flex-start;
+  }
+
+  .contact__copy {
+    flex: 1 1 380px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .contact__form {
+    flex: 1 1 480px;
+    min-width: 0;
+  }
+
+  .offices {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+    gap: 16px;
+    padding-top: 8px;
+  }
+
+  .office {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 20px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-size: 15px;
+  }
+
+  .office strong {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .office a {
+    font-weight: 600;
+    color: var(--ink);
+  }
+</style>

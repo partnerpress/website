@@ -1,0 +1,34 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Section from '@/components/Section.astro';
+import Button from '@/components/Button.astro';
+import Phone from '@/components/Phone.astro';
+---
+
+<BaseLayout
+  title="Thanks, I'll be in touch | PartnerPress"
+  description="Your request was received. Shane will reply within one business day."
+  noindex
+>
+  <Section width="narrow">
+    <div class="message">
+      <span class="eyebrow">Request received</span>
+      <h1 class="title-lg">Thanks. I'll be in touch within one business day.</h1>
+      <p class="lead">
+        If it's urgent, call me directly: Marin <Phone office="marin" /> or Las Cruces <Phone office="nm" />.
+      </p>
+      <Button href="/" variant="secondary">Back to the homepage</Button>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .message {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+    padding-block: 24px;
+  }
+</style>

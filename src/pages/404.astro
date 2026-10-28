@@ -1,0 +1,42 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Section from '@/components/Section.astro';
+import { SERVICE_NAV } from '@/config/site';
+---
+
+<BaseLayout title="Page not found | PartnerPress" description="The page you were looking for could not be found." noindex>
+  <Section width="narrow">
+    <div class="message">
+      <span class="eyebrow">404</span>
+      <h1 class="title-lg">That page isn't here anymore.</h1>
+      <p class="lead">The site was recently rebuilt, so an old link may have moved. Try one of these:</p>
+      <ul>
+        {SERVICE_NAV.map((item) => <li><a href={item.href}>{item.mobileLabel ?? item.label}</a></li>)}
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/contact/">Book a free call</a></li>
+      </ul>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .message {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+    padding-block: 24px;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-heading);
+    font-weight: 600;
+  }
+</style>

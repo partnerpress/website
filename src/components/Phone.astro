@@ -1,0 +1,32 @@
+---
+// Tap-to-call phone number for running text.
+import { OFFICES, type OfficeKey } from '@/config/site';
+
+interface Props {
+  office: OfficeKey;
+  strong?: boolean;
+}
+
+const { office, strong = false } = Astro.props;
+const o = OFFICES[office];
+---
+
+<a class:list={['phone', strong && 'phone--strong']} href={`tel:${o.tel}`}>{o.phone}</a>
+
+<style>
+  .phone {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .phone:hover {
+    color: inherit;
+    text-decoration-thickness: 2px;
+  }
+
+  .phone--strong {
+    font-weight: 700;
+  }
+</style>

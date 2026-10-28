@@ -1,0 +1,14 @@
+---
+// Live Google reviews from Trustindex. The loader renders the widget where this script sits.
+import { TRUSTINDEX_SRC } from '@/config/site';
+---
+
+<div class="reviews-widget">
+  <script is:inline defer async src={TRUSTINDEX_SRC}></script>
+</div>
+
+<style>
+  .reviews-widget {
+    min-height: 240px;
+  }
+</style>

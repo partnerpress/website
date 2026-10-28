@@ -1,0 +1,50 @@
+---
+// Two-column band: a heading block on the left, content on the right. Stacks on phones.
+interface Props {
+  ratio?: 'one-two' | 'even';
+  align?: 'start' | 'center';
+}
+
+const { ratio = 'one-two', align = 'start' } = Astro.props;
+---
+
+<div class:list={['split', `split--${ratio}`, `split--${align}`]}>
+  <div class="split__side"><slot name="side" /></div>
+  <div class="split__main"><slot /></div>
+</div>
+
+<style>
+  .split {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px 64px;
+  }
+
+  .split--center {
+    align-items: center;
+  }
+
+  .split__side,
+  .split__main {
+    min-width: 0;
+  }
+
+  .split--one-two .split__side {
+    flex: 1 1 320px;
+  }
+
+  .split--one-two .split__main {
+    flex: 2 1 520px;
+  }
+
+  .split--even .split__side,
+  .split--even .split__main {
+    flex: 1 1 420px;
+  }
+
+  .split__side {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+</style>

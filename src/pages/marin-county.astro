@@ -1,0 +1,93 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Section from '@/components/Section.astro';
+import SectionIntro from '@/components/SectionIntro.astro';
+import Grid from '@/components/Grid.astro';
+import Button from '@/components/Button.astro';
+import Rating from '@/components/Rating.astro';
+import Placeholder from '@/components/Placeholder.astro';
+import ServiceCard from '@/components/ServiceCard.astro';
+import AreaList from '@/components/AreaList.astro';
+import NameStrip from '@/components/NameStrip.astro';
+import CaseStudyCard from '@/components/CaseStudyCard.astro';
+import ReviewQuote from '@/components/ReviewQuote.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Phone from '@/components/Phone.astro';
+import { SITE, OFFICES } from '@/config/site';
+import { SERVICES } from '@/data/services';
+import { MARIN_TOWNS, MARIN_CLIENTS } from '@/data/locations';
+import { REVIEWS } from '@/data/reviews';
+
+const office = OFFICES.marin;
+const local: Record<string, { title: string; summary: string }> = {
+  'web-design': {
+    title: 'Marin web design',
+    summary: 'Fast, accessible WordPress sites for Marin service businesses, nonprofits and professional firms.',
+  },
+  care: { title: 'WordPress care plans', summary: 'Weekly updates, daily security scans and unlimited quick fixes. From $249 a month.' },
+  'local-seo': {
+    title: 'Marin local SEO',
+    summary: 'Get into the map pack for searches in Novato, San Rafael and across the county. From $1,495 a month.',
+  },
+  'google-ads': {
+    title: 'Google Ads in Marin',
+    summary: 'Local campaigns targeted to Marin and southern Sonoma, for one flat monthly fee.',
+  },
+};
+---
+
+<BaseLayout
+  title="Marin County Web Design, SEO & Google Ads | PartnerPress"
+  description="WordPress design, care plans, Local SEO and Google Ads for Marin County businesses, from Novato to Sausalito. Call (415) 390-6563."
+  nav="locations"
+  office="marin"
+  schema={['marin']}
+>
+  <PageHero eyebrow="Marin County, CA · Based in Novato" title="WordPress, Local SEO and Google Ads for Marin County businesses">
+    <Fragment slot="lead">
+      Marin businesses have trusted me with their websites since 2010. One local expert for your site, your Google rankings
+      and your ads, from Novato to Sausalito.
+    </Fragment>
+    <Fragment slot="actions">
+      <Button href="/contact/" size="lg">Book a free call</Button>
+      <span class="call">or call <Phone office="marin" strong /></span>
+    </Fragment>
+    <Rating slot="meta" />
+    <Placeholder slot="aside" label="Local photo: Mount Tam, downtown Novato, or Shane with a Marin client" />
+  </PageHero>
+
+  <Section>
+    <SectionIntro title="What I do for Marin businesses" />
+    <Grid min={250} gap="20px">
+      {SERVICES.map((s) => <ServiceCard service={s} detailed={false} title={local[s.key].title} summary={local[s.key].summary} />)}
+    </Grid>
+  </Section>
+
+  <Section tone="subtle" compact>
+    <AreaList title="Towns I serve" areas={MARIN_TOWNS}>In-person meetings anywhere in Marin, or on video if that's easier.</AreaList>
+  </Section>
+
+  <Section>
+    <SectionIntro title="Trusted by Marin organizations" />
+    <NameStrip names={MARIN_CLIENTS} align="start" />
+    <Grid min={340}>
+      <CaseStudyCard label="Marin client story" result="[Marin client] · [RESULT]" text="[Two sentences on the problem and what changed.]" image={false} />
+      <ReviewQuote review={REVIEWS.krivatsy} variant="tint" />
+    </Grid>
+  </Section>
+
+  <CtaBand title="Talk to a Marin WordPress expert">
+    <address>
+      {SITE.name}, {office.street}, {office.city}, {office.region}
+      {office.postalCode} · <Phone office="marin" strong />
+    </address>
+  </CtaBand>
+</BaseLayout>
+
+<style>
+  .call {
+    font-size: 18px;
+    color: var(--text-strong);
+  }
+</style>

@@ -1,0 +1,111 @@
+---
+// Top-of-page hero: eyebrow, H1, lead, actions and an optional visual on the right.
+interface Props {
+  eyebrow: string;
+  title: string;
+  tone?: 'tint' | 'navy';
+  size?: 'xl' | 'lg';
+  /** Center the text when there is no visual. */
+  centered?: boolean;
+}
+
+const { eyebrow, title, tone = 'tint', size = 'lg', centered = false } = Astro.props;
+const hasAside = Astro.slots.has('aside');
+---
+
+<section class:list={['hero', `hero--${tone}`]}>
+  <div class:list={['container', 'hero__inner', centered && 'hero__inner--centered']}>
+    <div class="hero__copy">
+      <span class="eyebrow hero__eyebrow">{eyebrow}</span>
+      <h1 class:list={[size === 'xl' ? 'title-xl' : 'title-lg']}>{title}</h1>
+      {Astro.slots.has('lead') && <div class="lead hero__lead"><slot name="lead" /></div>}
+      {Astro.slots.has('actions') && <div class="hero__actions"><slot name="actions" /></div>}
+      {Astro.slots.has('meta') && <div class="hero__meta"><slot name="meta" /></div>}
+    </div>
+    {hasAside && <div class="hero__aside"><slot name="aside" /></div>}
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(56px, 7vw, 96px);
+  }
+
+  .hero--tint {
+    background: var(--blue-50);
+  }
+
+  .hero--navy {
+    background: var(--blue-900);
+    color: var(--white);
+  }
+
+  .hero--navy h1 {
+    color: var(--white);
+  }
+
+  .hero__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px 56px;
+    align-items: center;
+  }
+
+  .hero__inner--centered {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero__copy {
+    flex: 1 1 520px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .hero__inner--centered .hero__copy {
+    flex-basis: auto;
+    max-width: 820px;
+    align-items: center;
+  }
+
+  .hero__eyebrow {
+    color: var(--blue-700);
+  }
+
+  .hero--navy .hero__eyebrow {
+    color: var(--orange-300);
+  }
+
+  .hero--navy .hero__lead {
+    color: var(--blue-100);
+  }
+
+  .hero__inner--centered .hero__lead {
+    max-width: 38em;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    align-items: center;
+  }
+
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    align-items: center;
+    font-size: 15px;
+  }
+
+  .hero__aside {
+    flex: 1 1 380px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+</style>

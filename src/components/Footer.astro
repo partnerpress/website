@@ -1,0 +1,120 @@
+---
+import { SITE, OFFICES, SERVICE_NAV, LEGAL_NAV } from '@/config/site';
+
+const year = new Date().getFullYear();
+const offices = Object.values(OFFICES);
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__grid">
+      <div class="footer__col">
+        <img src="/assets/img/logo-white.svg" alt="PartnerPress" width="125" height="36" />
+        <p>{SITE.tagline}</p>
+      </div>
+      <div class="footer__col">
+        <span class="footer__heading">Services</span>
+        {SERVICE_NAV.map((item) => <a href={item.href}>{item.mobileLabel ?? item.label}</a>)}
+        <a href="/blog/">Blog</a>
+      </div>
+      {
+        offices.map((o) => (
+          <div class="footer__col">
+            <a class="footer__heading" href={o.page}>
+              {o.short === 'Marin' ? 'Marin County' : o.short}
+            </a>
+            <address>
+              {o.street}
+              <br />
+              {o.city}, {o.region} {o.postalCode}
+            </address>
+            <a href={`tel:${o.tel}`}>{o.phone}</a>
+          </div>
+        ))
+      }
+    </div>
+    <div class="footer__bottom">
+      <span>© {year} {SITE.legalName}</span>
+      <nav class="footer__legal" aria-label="Legal">
+        {LEGAL_NAV.map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--footer);
+    color: var(--line-strong);
+    font-size: 15px;
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-block: 64px 40px;
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px;
+  }
+
+  .footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer__col img {
+    height: 36px;
+    width: auto;
+    align-self: flex-start;
+    margin-bottom: 6px;
+  }
+
+  .footer a {
+    color: var(--line-strong);
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    color: var(--white);
+    text-decoration: underline;
+  }
+
+  .footer .footer__heading {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    justify-content: space-between;
+    padding-top: 24px;
+    border-top: 1px solid var(--text);
+    font-size: 14px;
+    color: #9aa1b0;
+  }
+
+  .footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+  }
+
+  .footer .footer__legal a {
+    color: #9aa1b0;
+  }
+
+  @media (max-width: 720px) {
+    .footer {
+      padding-bottom: 76px;
+    }
+  }
+</style>

@@ -1,11 +1,38 @@
 ---
-// Live Google reviews from Trustindex. The loader renders the widget where this script sits.
+// Live Google reviews from Trustindex. The loader renders the widget where its script sits,
+// so the script is only added once the widget scrolls near the screen. That keeps the
+// third-party JavaScript off the critical path for the first view of the page.
 import { TRUSTINDEX_SRC } from '@/config/site';
 ---
 
-<div class="reviews-widget">
-  <script is:inline defer async src={TRUSTINDEX_SRC}></script>
-</div>
+<div class="reviews-widget" data-src={TRUSTINDEX_SRC}></div>
+
+<script>
+  const load = (el: HTMLElement) => {
+    const script = document.createElement('script');
+    script.src = el.dataset.src!;
+    script.defer = true;
+    el.appendChild(script);
+  };
+
+  const widgets = document.querySelectorAll<HTMLElement>('.reviews-widget[data-src]');
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          observer.unobserve(entry.target);
+          load(entry.target as HTMLElement);
+        }
+      },
+      { rootMargin: '600px 0px' },
+    );
+    widgets.forEach((el) => observer.observe(el));
+  } else {
+    widgets.forEach(load);
+  }
+</script>
 
 <style>
   .reviews-widget {

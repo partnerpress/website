@@ -34,6 +34,8 @@ export default defineConfig({
   trailingSlash: 'always',
   build: {
     format: 'directory',
+    // Inline all CSS so no stylesheet blocks the first render.
+    inlineStylesheets: 'always',
   },
   integrations: [
     sitemap({

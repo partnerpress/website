@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Section from '@/components/Section.astro';
 import SectionIntro from '@/components/SectionIntro.astro';
@@ -14,6 +15,13 @@ import Phone from '@/components/Phone.astro';
 import BusinessSchema from '@/components/BusinessSchema.astro';
 import { SERVICES } from '@/data/services';
 import { REVIEWS } from '@/data/reviews';
+import bridge from '@/assets/img/home/golden-gate-bridge.jpg';
+import shane from '@/assets/img/home/shane-barnes.png';
+import grifols from '@/assets/img/clients/grifols.png';
+import ghilotti from '@/assets/img/clients/ghilotti-bros.png';
+import sutter from '@/assets/img/clients/sutter-health.png';
+import msa from '@/assets/img/clients/marin-school-of-the-arts.jpg';
+import quinstreet from '@/assets/img/clients/quinstreet.png';
 
 const service = Object.fromEntries(SERVICES.map((s) => [s.key, s]));
 
@@ -41,11 +49,11 @@ const howIDoIt = [
 ];
 
 const logos = [
-  { name: 'Grifols', file: 'grifols', w: 460, h: 102 },
-  { name: 'Ghilotti Bros. Inc.', file: 'ghilotti-bros', w: 377, h: 218 },
-  { name: 'Sutter Health', file: 'sutter-health', w: 250, h: 60 },
-  { name: 'Marin School of the Arts', file: 'marin-school-of-the-arts', w: 300, h: 300 },
-  { name: 'QuinStreet', file: 'quinstreet', w: 300, h: 61 },
+  { name: 'Grifols', img: grifols },
+  { name: 'Ghilotti Bros. Inc.', img: ghilotti },
+  { name: 'Sutter Health', img: sutter },
+  { name: 'Marin School of the Arts', img: msa },
+  { name: 'QuinStreet', img: quinstreet },
 ];
 
 const testimonials = [REVIEWS.jenkins, REVIEWS.ralston];
@@ -83,9 +91,18 @@ const fit = [
   description="WordPress design, care plans, Local SEO and Google Ads for local service businesses across the U.S. Since 2010. Book a free call."
 >
   <BusinessSchema slot="head" offices={['marin', 'nm']} organization />
-  <link slot="head" rel="preload" as="image" href="/assets/img/home/shane-barnes.webp" />
 
   <section class="hero">
+    <Image
+      class="hero__bg"
+      src={bridge}
+      alt=""
+      widths={[640, 1024, 1600, 2048]}
+      sizes="100vw"
+      quality={50}
+      loading="eager"
+      fetchpriority="high"
+    />
     <div class="container hero__inner">
       <div class="hero__copy">
         <p class="hero__hi">Hi, I'm Shane</p>
@@ -96,13 +113,14 @@ const fit = [
           <Rating />
         </div>
       </div>
-      <img
+      <Image
         class="hero__photo"
-        src="/assets/img/home/shane-barnes.webp"
+        src={shane}
         alt="Shane Barnes, founder of PartnerPress"
-        width="630"
-        height="559"
-        fetchpriority="high"
+        widths={[400, 630]}
+        sizes="(max-width: 860px) 400px, 600px"
+        quality={80}
+        loading="eager"
       />
     </div>
   </section>
@@ -154,14 +172,7 @@ const fit = [
       {
         logos.map((logo) => (
           <li>
-            <img
-              src={`/assets/img/clients/${logo.file}.webp`}
-              alt={logo.name}
-              width={logo.w}
-              height={logo.h}
-              loading="lazy"
-              decoding="async"
-            />
+            <Image src={logo.img} alt={logo.name} height={56} densities={[1, 2]} />
           </li>
         ))
       }
@@ -177,7 +188,7 @@ const fit = [
       {
         testimonials.map((r) => (
           <figure class="testimonial">
-            <img src={r.photo} alt="" width="150" height="150" loading="lazy" decoding="async" />
+            {r.photo && <Image src={r.photo} alt="" width={132} height={132} densities={[1, 2]} />}
             <blockquote>"{r.quote}"</blockquote>
             <figcaption>
               <strong>{r.name}</strong>, {r.note}
@@ -238,6 +249,7 @@ const fit = [
   </Section>
 
   <section class="ready">
+    <Image class="ready__bg" src={bridge} alt="" widths={[640, 1024, 1600]} sizes="100vw" quality={45} />
     <div class="container container--narrow ready__inner">
       <h2 class="title-lg">Are you ready to get started?</h2>
       <p>
@@ -272,11 +284,31 @@ const fit = [
      The bottom padding is the strip the blue and orange panels overlap. */
   .hero {
     --overlap: clamp(56px, 10vw, 150px);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     padding-top: clamp(40px, 5vw, 72px);
     padding-bottom: var(--overlap);
-    background:
-      linear-gradient(rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.62)),
-      url('/assets/img/home/golden-gate-bridge.webp') center / cover no-repeat;
+  }
+
+  /* Background photo plus a white wash, layered behind the hero content */
+  .hero :global(.hero__bg),
+  .ready :global(.ready__bg) {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero::before,
+  .ready::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(255, 255, 255, 0.62);
   }
 
   .hero__inner {
@@ -326,7 +358,7 @@ const fit = [
     color: var(--text-strong);
   }
 
-  .hero__photo {
+  .hero :global(.hero__photo) {
     display: block;
     width: 100%;
     max-width: 600px;
@@ -438,7 +470,7 @@ const fit = [
     padding: 0;
   }
 
-  .logos img {
+  .logos :global(img) {
     display: block;
     width: auto;
     height: 56px;
@@ -468,7 +500,7 @@ const fit = [
     margin: 0;
   }
 
-  .testimonial img {
+  .testimonial :global(img) {
     width: 132px;
     height: 132px;
     border-radius: 50%;
@@ -559,11 +591,15 @@ const fit = [
 
   /* Ready to get started: the bridge again, under a blue wash */
   .ready {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     padding-block: var(--section-y);
-    background:
-      linear-gradient(rgba(32, 81, 197, 0.9), rgba(32, 81, 197, 0.9)),
-      url('/assets/img/home/golden-gate-bridge-1024.webp') center / cover no-repeat;
     color: var(--white);
+  }
+
+  .ready::before {
+    background: rgba(32, 81, 197, 0.9);
   }
 
   .ready__inner {
@@ -589,7 +625,7 @@ const fit = [
       gap: 8px;
     }
 
-    .hero__photo {
+    .hero :global(.hero__photo) {
       justify-self: center;
       max-width: 400px;
     }

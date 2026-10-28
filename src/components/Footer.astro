@@ -1,4 +1,5 @@
 ---
+import logo from '@/assets/img/logo-white.svg';
 import { SITE, OFFICES, SERVICE_NAV, LEGAL_NAV } from '@/config/site';
 
 const year = new Date().getFullYear();
@@ -9,7 +10,7 @@ const offices = Object.values(OFFICES);
   <div class="container footer__inner">
     <div class="footer__grid">
       <div class="footer__col">
-        <img src="/assets/img/logo-white.svg" alt="PartnerPress" width="125" height="36" />
+        <img src={logo.src} alt="PartnerPress" width="125" height="36" loading="lazy" />
         <p>{SITE.tagline}</p>
       </div>
       <div class="footer__col">

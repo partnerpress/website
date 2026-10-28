@@ -1,5 +1,5 @@
 ---
-import logo from '@/assets/img/logo-white.svg';
+import logo from '@/assets/img/logo-white-only.svg';
 import { SITE, OFFICES, SERVICE_NAV, LEGAL_NAV } from '@/config/site';
 
 const year = new Date().getFullYear();
@@ -10,7 +10,7 @@ const offices = Object.values(OFFICES);
   <div class="container footer__inner">
     <div class="footer__grid">
       <div class="footer__col">
-        <img src={logo.src} alt="PartnerPress" width="125" height="36" loading="lazy" />
+        <img src={logo.src} alt="PartnerPress" width="180" height="28" loading="lazy" />
         <p>{SITE.tagline}</p>
       </div>
       <div class="footer__col">
@@ -70,7 +70,7 @@ const offices = Object.values(OFFICES);
   }
 
   .footer__col img {
-    height: 36px;
+    height: 28px;
     width: auto;
     align-self: flex-start;
     margin-bottom: 6px;

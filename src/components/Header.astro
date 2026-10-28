@@ -31,7 +31,7 @@ const aria = (key: NavKey) => (key === current ? 'page' : undefined);
 <header class="header">
   <div class="container header__inner">
     <a class="brand" href="/" aria-label="PartnerPress home">
-      <img src={logo.src} alt="PartnerPress" width="139" height="40" />
+      <img src={logo.src} alt="PartnerPress" width="218" height="34" />
     </a>
 
     <nav class="nav" aria-label="Main">
@@ -109,8 +109,8 @@ const aria = (key: NavKey) => (key === current ? 'page' : undefined);
 
 <style>
   .topbar {
-    background: var(--blue-900);
-    color: var(--blue-100);
+    background: var(--blue);
+    color: var(--white);
     font-size: 14px;
   }
 
@@ -152,7 +152,7 @@ const aria = (key: NavKey) => (key === current ? 'page' : undefined);
   .header__inner {
     display: flex;
     align-items: center;
-    gap: 16px 28px;
+    gap: 16px 20px;
     padding-block: 14px;
   }
 
@@ -162,14 +162,14 @@ const aria = (key: NavKey) => (key === current ? 'page' : undefined);
   }
 
   .brand img {
-    height: 40px;
+    height: 34px;
     width: auto;
   }
 
   .nav {
     display: flex;
     align-items: center;
-    gap: 4px 22px;
+    gap: 4px 16px;
     margin-left: auto;
     font-family: var(--font-heading);
     font-size: 15px;
@@ -179,6 +179,7 @@ const aria = (key: NavKey) => (key === current ? 'page' : undefined);
   .nav > a,
   .dropdown > summary {
     padding-block: 8px;
+    white-space: nowrap;
     color: var(--text-strong);
     text-decoration: none;
     cursor: pointer;
@@ -199,6 +200,10 @@ const aria = (key: NavKey) => (key === current ? 'page' : undefined);
     display: inline-flex;
     align-items: center;
     gap: 4px;
+  }
+
+  .dropdown > summary :global(svg) {
+    flex: none;
   }
 
   .dropdown[open] > summary :global(svg) {
@@ -326,14 +331,14 @@ const aria = (key: NavKey) => (key === current ? 'page' : undefined);
     text-decoration: none;
   }
 
-  @media (max-width: 1140px) {
+  @media (max-width: 1300px) {
     .nav {
       gap: 4px 14px;
       font-size: 14px;
     }
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1180px) {
     .nav,
     .header :global(.header__cta) {
       display: none;
@@ -344,7 +349,7 @@ const aria = (key: NavKey) => (key === current ? 'page' : undefined);
     }
 
     .brand img {
-      height: 32px;
+      height: 26px;
     }
 
     .topbar__since {

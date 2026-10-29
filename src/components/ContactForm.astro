@@ -1,6 +1,6 @@
 ---
-// "Book a call" form. Sent to Formspree when PUBLIC_FORMSPREE_ID is set, otherwise
-// handled by Netlify Forms (form name: book-a-call).
+// "Book a call" form. Sent to Formspree (FORMSPREE_ID in config/site.ts); falls back to
+// Netlify Forms (form name: book-a-call) when the ID is empty.
 // "Choose plan" buttons link to /contact/?plan=Name and the script below pre-fills it.
 import Button from './Button.astro';
 import { FORMSPREE_ID, OFFICES } from '@/config/site';

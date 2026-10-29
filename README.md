@@ -55,7 +55,7 @@ Set `draft: true` to keep a post off the live site. Drafts still show in `npm ru
 | Variable | Purpose |
 | --- | --- |
 | `PUBLIC_GA4_ID` | GA4 measurement ID (for example `G-XXXXXXX`). Analytics only load when this is set. |
-| `PUBLIC_FORMSPREE_ID` | Formspree form ID (for example `xyzabcde`). When set, the contact form posts to Formspree instead of Netlify Forms. |
+| `PUBLIC_FORMSPREE_ID` | Optional. Overrides the Formspree form ID in `src/config/site.ts` (`xjyyobjq`). Set it to an empty value to use Netlify Forms instead. |
 | `SITE_INDEXABLE` | Optional override. `true` forces indexing, `false` forces noindex. |
 
 ## Search engine visibility
@@ -64,7 +64,7 @@ Only the live production deploy on partnerpress.net can be indexed. Every other 
 
 ## Deploying
 
-Netlify reads `netlify.toml`: it runs `npm run build` on Node 24 and publishes `dist/`. Forms go to Formspree when `PUBLIC_FORMSPREE_ID` is set, otherwise Netlify Forms (form name `book-a-call`). Old WordPress URLs are redirected in `public/_redirects`.
+Netlify reads `netlify.toml`: it runs `npm run build` on Node 24 and publishes `dist/`. The contact form posts to Formspree (form `xjyyobjq`). Old WordPress URLs are redirected in `public/_redirects`.
 
 ## Before launch
 
@@ -73,6 +73,5 @@ Netlify reads `netlify.toml`: it runs `npm run build` on Node 24 and publishes `
 - Add real photos and client screenshots where the placeholder boxes are.
 - Review the blog post in `src/content/blog/`.
 - Set `PUBLIC_GA4_ID` in Netlify.
-- Turn on form notifications for `book-a-call` in Netlify.
 - Point partnerpress.net at Netlify and confirm the build log says "search engines: allowed".
 - Submit `https://partnerpress.net/sitemap-index.xml` in Google Search Console.

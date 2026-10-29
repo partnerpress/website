@@ -3,6 +3,9 @@ import { writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import react from '@astrojs/react';
+import netlify from '@astrojs/netlify';
+import keystatic from '@keystatic/astro';
 import { isIndexable } from './src/lib/indexing.mjs';
 
 const indexable = isIndexable();
@@ -31,6 +34,8 @@ function searchVisibility() {
 
 export default defineConfig({
   site: 'https://partnerpress.net',
+  // Pages stay prerendered; only the Keystatic admin (/keystatic) runs on demand.
+  adapter: netlify(),
   trailingSlash: 'always',
   build: {
     format: 'directory',
@@ -39,8 +44,11 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/thank-you/') && !page.includes('/404'),
+      filter: (page) =>
+        !page.includes('/thank-you/') && !page.includes('/404') && !page.includes('/keystatic'),
     }),
     searchVisibility(),
+    react(),
+    keystatic(),
   ],
 });

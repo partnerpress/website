@@ -84,5 +84,8 @@ export const LEGAL_NAV = [
 /** Google Analytics 4 measurement ID. Set PUBLIC_GA4_ID in Netlify to turn tracking on. */
 export const GA4_ID = import.meta.env.PUBLIC_GA4_ID ?? '';
 
+/** Formspree form ID (the part after /f/ in the endpoint). Set PUBLIC_FORMSPREE_ID in Netlify to send the contact form to Formspree; without it the form uses Netlify Forms. */
+export const FORMSPREE_ID = import.meta.env.PUBLIC_FORMSPREE_ID ?? '';
+
 /** Trustindex widget that shows live Google reviews. */
 export const TRUSTINDEX_SRC = 'https://cdn.trustindex.io/loader.js?6f1c3fd8962b091656596eaf64';

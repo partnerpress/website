@@ -625,7 +625,7 @@ const fit = [
       gap: 0;
     }
 
-    /* Phone layout: photo on top, copy in a bordered white card that overlaps it */
+    /* Phone layout: photo on top, sitting on a bordered white card of the same width */
     .hero {
       --overlap: 56px;
       padding-top: 16px;
@@ -633,15 +633,12 @@ const fit = [
 
     .hero :global(.hero__photo) {
       order: -1;
-      justify-self: center;
-      width: calc(100% + 2 * var(--gutter, 24px));
-      max-width: 480px;
+      width: 100%;
+      max-width: none;
     }
 
     .hero__copy {
       position: relative;
-      z-index: 1;
-      margin-top: -48px;
       padding: 28px 22px;
       background: var(--white);
       border: 4px solid var(--ink);
